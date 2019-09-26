@@ -23,7 +23,7 @@ Each major step below has an associated bash script tailored to the UConn CBC Xa
 
 ## Motivation
 
-In [Part 1](/Part1_qc_alignment.md) of the tutorial, we downloaded data QC'ed it, aligned it to a reference genome, and did post-alignment processing. Each step was conducted using a discrete script. Each script required that all the data be read, modified, and then re-written. This creates a couple problems. For non-trivial datasets, all of this reading and writing takes time. It also generates many copies of the data. If our first approach had been applied to a 300 gigbyte dataset, by the time we finished we'd be using somewhere in the neighborhood of 1.8 terabytes of disk space. 
+In [Part 1](/Part1_qc_alignment.md) of the tutorial, we downloaded data, QC'ed it, aligned it to a reference genome, and did post-alignment processing. Each step was conducted using a discrete script. Each script required that all the data be read, modified, and then re-written. This creates two problems. First, for large datasets, all of this reading and writing takes time. Second, it generates many copies of the data. If our first approach had been applied to a 300 gigbyte dataset, by the time we finished we'd be using somewhere in the neighborhood of 1.8 terabytes of disk space. 
 
 In this section of the tutorial we'll see how we can streamline this approach. To do this we'll make use of a core feature of unix-like operating systems: the pipe. 
 
