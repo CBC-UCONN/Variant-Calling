@@ -1,6 +1,6 @@
 # Variant discovery tutorials
 
-This repository contains re-worked variant detection tutorials for UConn CBC workshop. 
+This repository contains re-worked variant detection tutorials for UConn CBC workshops. 
 
 ## Introduction
 
