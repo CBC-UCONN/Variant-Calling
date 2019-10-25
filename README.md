@@ -77,3 +77,5 @@ _other utilities_
 - [ bgzip ](http://www.htslib.org/doc/bgzip.html)
 - [ tabix ](http://www.htslib.org/doc/tabix.html)
 - [ bedtools ](https://bedtools.readthedocs.io/en/latest/)
+- [ vcflib ](https://github.com/vcflib/vcflib)
+- [ vt ](https://github.com/atks/vt)

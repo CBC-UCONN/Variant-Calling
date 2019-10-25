@@ -6,8 +6,10 @@ This section of the tutorial deals with filtering and comparing sets of variants
 
 Steps here will use the following software packages:
 
-- []()
-- []()
+- [ bcftools ](http://www.htslib.org/doc/bcftools.html)
+- [ vcflib ](https://github.com/vcflib/vcflib)
+- [vt ](https://github.com/atks/vt)
+
 
 Each major step below has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) job scheduler. The code can easily be modified to run interactively, or in other contexts. 
 
@@ -33,6 +35,7 @@ First we'll create a new directory to hold the results we'll generate. Make sure
 
 ```bash
 mkdir -p filtered_vcfs
+cd filtered_vcfs
 ```
 
 ## Variant filtering
@@ -78,10 +81,10 @@ When you run these commands you will see dramatically different counts of varian
 2. Haplotype callers are better at weeding out errors and avoid returning a great deal of spurious variation. 
 
 There are many ways we can inspect these results (short of doing more lab work to validate individual variants) to get an idea of the quality of our call set. Here are a few:
-1. Test for Hardy-Weinberg equilibrium. If you have a sample from a single population, variants that are not in equilibrium may be problematic. 
+1. Test for Hardy-Weinberg equilibrium. If you have a population from a single population, variants that are not in equilibrium within that may be problematic. 
 2. Test for mendelian errors. If you have a pedigree for your samples (as we do in this example data set), you can ask how frequently, or which loci violate mendelian inheritance. 
 3. Evaluate bulk statistics like the transition/transversion ratio for SNPs. ts/tv in humans should be around 2.1. The value expected from random error is 0.5. A set riddled with errors will have a lower than expected ts/tv ratio. 
-4. Compare against a known set of variants. The origin, reliability, expected similarity to the focal samples of the set of knowns all factor into how this comparison is interpreted. 
+4. Compare against a known set of variants. The reliability and expected similarity to the focal samples of the set of knowns both factor into how this comparison is interpreted. 
 
 Here we'll briefly look at 2 and 3 using `vt`. 
 
@@ -90,25 +93,24 @@ Let's try `vt peek` to summarize the output from `freebayes`:
 ```bash
 module load vt
 
-vt peek -f 'QUAL > 50' fb_filtered.vcf.gz
+vt peek -f 'QUAL > 50' fb_filter.vcf.gz
 ```
 
 You'll see a whole lot of output. It counts up the different types of variants. For SNPs it gives the ts/tv ratio, for indels the insertion/deletion ratio. You can see that our SNP ts/tv is 1.8. Lower than we expect. If we reverse the ">" to look at __low__ quality variants...
 
 ```bash
-vt peek -f 'QUAL < 50' fb_filtered.vcf.gz
+vt peek -f 'QUAL < 50' fb_filter.vcf.gz
 ```
 
-If we have a look at `bcftools` variant set:
-
+If we have a look at `bcftools` and `GATK` variant sets:
 
 ```bash
-vt peek -f 'QUAL > 50' bcf_filtered.vcf.gz
+vt peek -f 'QUAL > 50' bcf_filter.vcf.gz
 ```
 
-We see that it has many more 'high quality' variants, but ts/tv is considerably lower. 
+We see that they both have many more 'high quality' variants, but ts/tv is considerably lower for both. We could set more filters to improve these variant call sets. 
 
-Let's have a look at mendelian violations, also using `vt`. First from `freebayes` then from `bcftools` :
+Let's also have a look at mendelian violations, also using `vt`:
 
 ```bash
 # create a pedigree file:
@@ -119,8 +121,11 @@ cat ct.ped | sed 's/ /\t/' >ct2.ped && mv ct2.ped ct.ped
 
 # run vt
 vt profile_mendelian -f 'QUAL > 50' -p ct.ped fb_filter.vcf.gz
+vt profile_mendelian -f 'QUAL > 50' -p ct.ped gatk_filter.vcf.gz
 vt profile_mendelian -f 'QUAL > 50' -p ct.ped bcf_filter.vcf.gz
 ```
+
+Again, we see that for biallelic loci filtered at Q > 50, `freebayes` has the lowest mendelian error rate, while `bcftools` has the highest. 
 
 ___
 scripts:
@@ -128,9 +133,9 @@ scripts:
 
 ## Variant comparison
 
-You may wish to explore the results from different variant callers to understand their performance. In that case, you might want to compare variant call sets from different approaches, or to a known true set of variants. As is mentioned above, the representation of variants may differ between variant callers. One way to handle this is to break down haplotype variants into their constituent parts and/or normalize them. Here we'll use the tool `vcfallelicprimitives` from `vcflib` to break down haplotype variants and `vt` to compare different sets (if you wanted to extract the intersection of, or unique variants from a pair of files, you could use 'bcftools isec' or vcflib's `vcfintersect`). 
+You may wish to explore the results from different variant callers to understand their performance. In that case, you might want to compare variant call sets from different approaches, or to a known true set of variants. As is mentioned above, the representation of variants may differ between variant callers. One way to handle this is to break down haplotype variants into their constituent parts and/or normalize them. Here we'll use the tool `vcfallelicprimitives` from `vcflib` to break down haplotype variants and `vt` to compare different sets (if you wanted to extract the intersection of, or unique variants from a pair of files, you could use `bcftools isec` or vcflib's `vcfintersect`). 
 
-As an example, v`cfallelicprimitives` takes this single VCF record, produced by `freebayes`
+As an example, `vcfallelicprimitives` takes this single VCF record, produced by `freebayes`
 
 ```bash
 chr20	33089668	.	AGT	GGC,AGC	3627.68	PASS	AB=0.430168,0.601942;ABP=10.5923,12.3076;AC=3,2;AF=0.5,0.333333;AN=6;AO=77,62;CIGAR=1X1M1X,2M1X;DP=179;DPB=179.667;DPRA=0,0;EPP=30.1114,8.05372;EPPR=3.5385;GTI=0;LEN=3,1;MEANALT=2.66667,3;MQM=60,60;MQMR=60;NS=3;NUMALT=2;ODDS=82.337;PAIRED=1,1;PAIREDR=1;PAO=1.5,0.5;PQA=45,14;PQR=0;PRO=0;QA=2603,2183;QR=1197;RO=37;RPL=35,34;RPP=4.39215,4.27115;RPPR=3.5385;RPR=42,28;RUN=1,1;SAF=37,29;SAP=3.26411,3.57068;SAR=40,33;SRF=20;SRP=3.5385;SRR=17;TYPE=complex,snp	GT:DP:AD:RO:QR:AO:QA:GL	1/2:67:0,25,41:0:0:25,41:859,1416:-186.837,-115.271,-106.842,-72.4793,0,-59.535	0/1:76:37,38,0:37:1197:38,0:1253,0:-90.3955,0,-85.3462,-101.534,-96.7853,-198.072	1/2:36:0,14,21:0:0:14,21:491,767:-102.821,-62.8774,-58.663,-40.1512,0,-33.8295
@@ -143,7 +148,7 @@ chr20	33089668	.	A	G	3627.68	PASS	AC=3;AF=0.5;LEN=1;TYPE=snp	GT	1|0	0|1	1|0
 chr20	33089670	.	T	C	3627.68	PASS	AC=5;AF=0.833333;LEN=1;TYPE=snp	GT	1|1	0|1	1|1
 ```
 
-The two records match the way these sites are represented by `bcftools` and `gatk`. 
+The two records match the way these sites are represented by `bcftools` and `gatk`. The INFO field, genotype likelihood and allele coverage information are stripped out in this process because the data they contain may no longer apply to the genotypes in the new VCF records (though there is an option to retain that information). 
 
 To ask how the variant callsets compare, we can do: 
 
@@ -155,32 +160,23 @@ vt partition -f 'QUAL > 50' <(vcfallelicprimitives gatk_filter.vcf.gz) <(vcfalle
 ```
 Here the code `<(vcfallelicprimitives fb_filter.vcf.gz)` is called a [__process substitution__](http://vincebuffalo.org/blog/2013/08/08/using-names-pipes-and-process-substitution-in-bioinformatics.html). This allows us to, essentially, pipe the results of the command that breaks up haplotype alleles to `vt` without having to write a new vcf file to the disk. 
 
+We can see that intersecting any pair of variant calls results in a very consistent 1.75 ts/tv. 
+
 If we want to look at the intersection of all three VCF files:
 
 ```bash
 vt multi_partition -f 'QUAL > 50' <(vcfallelicprimitives gatk_filter.vcf.gz) <(vcfallelicprimitives fb_filter.vcf.gz) bcf_filter.vcf.gz
 ```
+We can see there is a core set of variants that are called by all three methods, and for these, dramatically lowering or raising the quality score threshold does not impact their number. 
+
+In this case, where variant callers disagree quite strongly on a fairly large number of variants, it may be worth further exploring the variants where there is disagreement, focusing on statistics other than the quality score. 
+
+For reference, another commonly used tool for evaluating VCF files is [vcfeval](https://www.realtimegenomics.com/products/rtg-tools). 
+
+A discussion of the issue of variant normalization can be found [here](https://genome.sph.umich.edu/wiki/Variant_Normalization)
 
 ___
 scripts:
 - []()
-
-
-
-vcflib, vt, vcfeval (https://www.realtimegenomics.com/products/rtg-tools)
-vgraph (https://github.com/bioinformed/vgraph)
-bcftools normalize
-https://github.com/Illumina/hap.py
-
-?? how do we discuss annotation ?? 
-?? how do we compare variant call sets ??
-
-discussion of normalization:
-https://genome.sph.umich.edu/wiki/Variant_Normalization
-
-
-bcftools annotate does simple matching. does not account for complex alleles or incompatible representations. 
-
---dbsnp in haplotypecaller can accept a vcf file and annotate snps
 
 

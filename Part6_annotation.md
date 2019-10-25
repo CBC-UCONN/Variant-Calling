@@ -36,3 +36,10 @@ The final thing we'll cover in this tutorial is variant annotation. In this cont
 ___
 scripts:
 - []()
+
+
+
+bcftools annotate does simple matching. does not account for complex alleles or incompatible representations. 
+
+--dbsnp in haplotypecaller can accept a vcf file and annotate snps
+
