@@ -27,7 +27,11 @@ In this section of the tutorial, we'll cover ways you can filter and compare set
 
 ## Update your working directory
 
+First we'll create a new directory to hold the results we'll generate. Make sure you're in the directory vc_workshop and type:
 
+```bash
+mkdir -p filtered_vcfs
+```
 
 ## Variant filtering
 

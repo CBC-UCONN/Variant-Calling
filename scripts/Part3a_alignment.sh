@@ -20,7 +20,7 @@ module load samblaster
 module load bwa/0.7.17
 
 # make sure alignment directory exists
-mkdir -p ../align_pipe
+mkdir -p ../results/align_pipe
 
 # set a variable 'GEN' that gives the location and base name of the reference genome:
 GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
