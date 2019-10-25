@@ -15,6 +15,8 @@ Each major step below has an associated bash script tailored to the UConn CBC Xa
   
 1.    [ Motivation ](#Motivation)
 2.    [ Update your working directory ](#Update-your-working-directory)  
+3.    [ Variant filtering ](#Variant-filtering)
+4. 	  [ Variant comparison ](#Variant-comparison)
 
 ## Motivation
 
