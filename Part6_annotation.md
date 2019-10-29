@@ -95,13 +95,18 @@ ANN=C|stop_lost|HIGH|DEFB119|DEFB119|transcript|NM_153323.4|protein_coding|2/2|c
 ANN=AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_178466.4|protein_coding|1/7|c.62delC|p.Pro21fs|289/1181|62/765|21/254||,AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_001042439.2|protein_coding|1/6|c.62delC|p.Pro21fs|289/1073|62/657|21/218||
 ```
 
-A single variant can have more than one annotation, so each ANN field is a comma-separated list. The second line has two annotations:
+A VCF record can have more than one annotation, so each ANN field is a comma-separated list. The second line has two annotations:
 
 ```bash
 AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_178466.4|protein_coding|1/7|c.62delC|p.Pro21fs|289/1181|62/765|21/254||
 AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_001042439.2|protein_coding|1/6|c.62delC|p.Pro21fs|289/1073|62/657|21/218||
 ```
 
+Each annotation is formatted as 16 subfields, separated by "|" and defined in the [manual](http://snpeff.sourceforge.net/SnpEff_manual.html). The first three being most salient: the allele, the effect (here, a frameshift for both annotations), and a predicted impact (here "HIGH"). The rest of the subfields describe the details of the feature and how the variant alters it. The effect and the feature type (subfield 6) are part of a controlled vocabulary, or ontology, called [the Sequence Ontology](http://www.sequenceontology.org/). 
+
+`SnpEff` also produces the files `snpEff_summary.html` and `snpEff_genes.txt`. These summarize the set of variants that have been annotated. Download `snpEff_summary.html` to your local machine and view it in a web browser to see variant annotations broken down in various ways. 
+
+Once you have annotated your VCF, you _can_ use `grep` to parse out variants you're interested in as we did above, but [SnpSift](http://snpeff.sourceforge.net/SnpSift.html), which we won't cover here, may be a better approach. 
 
 ___
 scripts:
