@@ -37,9 +37,28 @@ A genome annotation can give us a wide array of information about genomic featur
 
 For a given genome annotation, variants can be categorized based on their predicted biological impact. As an aside, it's important to recognize that the quality of functional prediction is conditional on the quality and completeness of the genome annotation. 
 
-One of the most widely used tool for predicting functional effects of variants given a VCF and genome annotation is [`SnpEff`](http://snpeff.sourceforge.net/SnpEff.html), which is what we'll use here (but see also [VEP](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0974-4), and [ANNOVAR](https://academic.oup.com/nar/article/38/16/e164/1749458)). To run, `SnpEff` takes in a genome annotation, a reference genome, and a VCF file, and outputs a VCF file with annotations added to the INFO field, and tables of summaries of the predicted biological impact of the variants. 
+One of the most widely used tool for predicting functional effects of variants given a VCF and genome annotation is [`SnpEff`](http://snpeff.sourceforge.net/SnpEff.html), which is what we'll use here (but see also [VEP](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0974-4), and [ANNOVAR](https://academic.oup.com/nar/article/38/16/e164/1749458)). `SnpEff's` predictions stem entirely from the annotation of the primary DNA sequence, and so they do not account for the effects of secondary or tertiary structure of amino acid sequences, location with respect to important motifs within genes, or sequence conservation among species. 
 
-`SnpEff's` predictions stem entirely from the annotation of the primary DNA sequence, and so they do not account for the effects of secondary or tertiary structure of amino acid sequences, location with respect to important motifs within genes, or sequence conservation among species. 
+To run, `SnpEff` requires a database generated from a reference genome and annotation. There are many prebuilt databases, which can be downloaded. The list can be viewed by typing:
+
+```bash
+module load snpEff/4.3q
+java -jar snpEff.jar databases
+```
+Which yields a list formatted like this:
+
+```bash
+hg19                                                        	Homo_sapiens (USCS)                                         	          	                              	http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_hg19.zip
+hg19kg                                                      	Homo_sapiens (UCSC KnownGenes)                              	          	                              	http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_hg19kg.zip
+hg38                                                        	Homo_sapiens (USCS)                                         	          	                              	http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_hg38.zip
+hg38kg                                                      	Homo_sapiens (UCSC KnownGenes)                              	          	                              	http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_hg38kg.zip
+```
+You can refer to specific pre-built databases by the names 
+
+
+takes in a genome annotation, a reference genome, and a VCF file, and outputs a VCF file with annotations added to the INFO field, and tables of summaries of the predicted biological impact of the variants. 
+
+
 
 
 
