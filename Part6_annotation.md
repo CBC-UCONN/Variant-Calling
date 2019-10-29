@@ -53,8 +53,9 @@ hg19kg                                                      	Homo_sapiens (UCSC 
 hg38                                                        	Homo_sapiens (USCS)                                         	          	                              	http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_hg38.zip
 hg38kg                                                      	Homo_sapiens (UCSC KnownGenes)                              	          	                              	http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_hg38kg.zip
 ```
-You can refer to specific pre-built databases by the names 
+You can refer to specific pre-built databases by the names in the first column, e.g. hg38. 
 
+If the species you work on does not have a pre-built database, you can [build one](http://snpeff.sourceforge.net/SnpEff_manual.html#databases). 
 
 takes in a genome annotation, a reference genome, and a VCF file, and outputs a VCF file with annotations added to the INFO field, and tables of summaries of the predicted biological impact of the variants. 
 
