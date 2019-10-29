@@ -40,6 +40,8 @@ For a given genome annotation, variants can be categorized based on their predic
 
 One of the most widely used tool for predicting functional effects of variants given a VCF and genome annotation is [`SnpEff`](http://snpeff.sourceforge.net/SnpEff.html), which is what we'll use here (but see also [VEP](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0974-4), and [ANNOVAR](https://academic.oup.com/nar/article/38/16/e164/1749458)). `SnpEff's` predictions stem entirely from the annotation of the primary DNA sequence, and so they do not account for the effects of secondary or tertiary structure of amino acid sequences, location with respect to important motifs within genes, or sequence conservation among species. 
 
+___
+
 To run, `SnpEff` requires a database generated from a reference genome and annotation. There are many pre-built databases, which can be downloaded. The list can be viewed by typing:
 
 ```bash
@@ -95,7 +97,7 @@ ANN=C|stop_lost|HIGH|DEFB119|DEFB119|transcript|NM_153323.4|protein_coding|2/2|c
 ANN=AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_178466.4|protein_coding|1/7|c.62delC|p.Pro21fs|289/1181|62/765|21/254||,AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_001042439.2|protein_coding|1/6|c.62delC|p.Pro21fs|289/1073|62/657|21/218||
 ```
 
-A VCF record can have more than one annotation, so each ANN field is a comma-separated list. The second line has two annotations:
+A VCF record can have more than one annotation, so each ANN field is a comma-separated list. The second line has two annotations, corresponding to effects on two different transcripts of the gene BPIFA3:
 
 ```bash
 AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_178466.4|protein_coding|1/7|c.62delC|p.Pro21fs|289/1181|62/765|21/254||
@@ -106,7 +108,7 @@ Each annotation is formatted as 16 subfields, separated by "|" and defined in th
 
 `SnpEff` also produces the files `snpEff_summary.html` and `snpEff_genes.txt`. These summarize the set of variants that have been annotated. Download `snpEff_summary.html` to your local machine and view it in a web browser to see variant annotations broken down in various ways. 
 
-Once you have annotated your VCF, you _can_ use `grep` to parse out variants you're interested in as we did above, but [SnpSift](http://snpeff.sourceforge.net/SnpSift.html), which we won't cover here, may be a better approach. 
+Once you have annotated your VCF, you _can_ use `grep` to parse out variants with annotations you're interested in, as we did above, but [SnpSift](http://snpeff.sourceforge.net/SnpSift.html), which we won't cover here, may be a better approach. 
 
 ___
 scripts:
@@ -115,9 +117,7 @@ scripts:
 
 ## Connecting variants with existing databases
 
-The final thing we'll cover in this tutorial is variant annotation. In this context, annotation means two things:
-1. Connect the variants we've discovered to knowledge about them in existing databases. 
-2. Make some predictions about the functional impact of the variants based on our genome annotation. 
+
 
 scripts:
 - []()
