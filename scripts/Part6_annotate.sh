@@ -16,8 +16,11 @@ date
 
 module load bcftools/1.6
 module load htslib
+module load snpEff/4.3q
 
-cd ../filtered_vcfs
+# make a directory if it doesn't exist
+mkdir -p annotated_vcfs
+cd annotated_vcfs
 
 # get the dbsnp set for chromosome 20
 	# do a bunch of reformatting to make sure it works with the following steps

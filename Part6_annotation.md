@@ -31,6 +31,12 @@ cd annotated_vcfs
 
 ## Predicting the functional effects of variants
 
+How does functional prediction work? Up until this point our input data has consisted of 1) a reference genome and 2) fragments of whole genome shotgun sequence from samples of interest. We have used that data to identify sequence variation among the sampled genomes. In order to understand whether that sequence variation has a biological impact, we could do experiments (not feasible for millions of variants in eukaryotic genomes!), or we could use sequence context to make some predictions. In this case, the sequence context is a **genome annotation**. 
+
+A genome annotation can give us a wide array of information about genomic features of interest, but usually incorporates at least the location and coding frame of exons within genes, possibly for multiple transcripts. It may also identify non-coding RNAs, promoters, enhancers, conserved elements or repetitive elements. 
+
+For a given annotation (and it's important to recognize that functional prediction is conditional on the quality and completeness of the annotation), variants can be categorized based on their predicted biological impact. 
+
 Perhaps the most widely used tool for predicting functional effects of variants given a VCF and genome annotation is (SnpEff)[http://snpeff.sourceforge.net/SnpEff.html]. 
 
 ___
