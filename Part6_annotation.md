@@ -6,7 +6,7 @@ This section of the tutorial deals with annotating variants.  It assumes you hav
 
 Steps here will use the following software packages:
 
-- []()
+- [ SnpEff ](http://snpeff.sourceforge.net/SnpEff.html)
 - []()
 
 Each major step below has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) job scheduler. The code can easily be modified to run interactively, or in other contexts. 
@@ -18,7 +18,7 @@ Each major step below has an associated bash script tailored to the UConn CBC Xa
 
 ## Motivation
 
-Once you have identified a set of variants of interest, you may want to annotate them with information derived from outside resources. Two kinds of annotations are commonly used. The first is functional prediction. Conditioned on a functional annotation of your reference genome, you may want to know if any of the variants you have identified are likely to impact the functioning of the genome. Do any occur in coding or promoter regions? Do any cause amino acid substitutions? Second, you may want to learn anything that is already known about variants you have found by connecting them to databases of existing information (such as dbSNP). Here we will use both approaches. 
+Once you have identified a set of variants of interest, you may want to annotate them with information derived from outside resources. Two kinds of annotations are commonly applied to VCF files. The first annotation of functional prediction. You may want to know if any of the variants you have identified are likely to impact how the genome works. Do any occur in coding or promoter regions? Do any cause amino acid substitutions or premature stop codons? We do this by comparison with a functional annotation of the genome. Second, you may want to learn anything that is already known about variants you have found. Have alleles you observe previously been associated with phenotypic variation or disease? Here we will use both approaches. We do this by connecting them to databases of existing information (such as dbSNP). 
 
 ## Update your working directory
 
@@ -31,7 +31,7 @@ cd annotated_vcfs
 
 ## Predicting the functional effects of variants
 
-Perhaps the most common 
+Perhaps the most widely used tool for predicting functional effects of variants given a VCF and genome annotation is (SnpEff)[http://snpeff.sourceforge.net/SnpEff.html]. 
 
 ___
 scripts:
