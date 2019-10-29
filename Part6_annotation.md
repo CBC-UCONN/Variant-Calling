@@ -15,6 +15,7 @@ Each major step below has an associated bash script tailored to the UConn CBC Xa
   
 1.    [ Motivation ](#Motivation)
 2.    [ Update your working directory ](#Update-your-working-directory)  
+3.    [ Predicting the functional effects of variants ](#Predicting-the-functional)
 
 ## Motivation
 
@@ -66,7 +67,7 @@ module load snpEff/4.3q
 # freebayes filtered vcf file
 VCF=../filtered_vcfs/fb_filter.vcf.gz
 
-java -Xmx8G -jar $SNPEFF eff -dataDir $(pwd)/snpeff_data hg38 $VCF | bgzip -c > fb_filter.ann.vcf
+java -Xmx8G -jar $SNPEFF eff -dataDir $(pwd)/snpeff_data hg38 $VCF | bgzip -c > fb_filter.ann.vcf.gz
 	
 ```
 
