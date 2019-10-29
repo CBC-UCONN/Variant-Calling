@@ -88,19 +88,18 @@ chr20	33217596	.	ACC	AC	1436.76	PASS	AB=0.504202;ABP=3.02855;AC=2;AF=0.333333;AN
 
 ```
 
-Deep in the INFO field are the annotations:
+Deep in the INFO field are the annotations, tagged with ANN:
 
 ```bash
 ANN=C|stop_lost|HIGH|DEFB119|DEFB119|transcript|NM_153323.4|protein_coding|2/2|c.265T>G|p.Ter89Gluext*?|431/490|265/267|89/88||,C|stop_lost|HIGH|DEFB119|DEFB119|transcript|NM_001271209.1|protein_coding|2/2|c.262T>G|p.Ter88Gluext*?|428/487|262/264|88/87||,C|intron_variant|MODIFIER|DEFB119|DEFB119|transcript|NM_153289.3|protein_coding|1/1|c.61+1396T>G||||||,C|intron_variant|MODIFIER|DEFB119|DEFB119|transcript|NR_073151.1|pseudogene|1/3|n.228-668T>G||||||,C|intron_variant|MODIFIER|DEFB119|DEFB119|transcript|NR_073152.1|pseudogene|1/2|n.228-668T>G||||||,C|intron_variant|MODIFIER|DEFB119|DEFB119|transcript|NR_073153.1|pseudogene|1/2|n.227+1396T>G||||||,C|intron_variant|MODIFIER|DEFB119|DEFB119|transcript|NR_126440.1|pseudogene|1/1|n.227+1396T>G||||||
-ANN=AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_178466.4|protein_coding|1/7|c.62delC|p.Pro21fs|289/1181|62/765|21/254||,AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_001042439.2|protein_coding|1/6|c.62delC|p.Pro21fs|289/1073|62/657|21/218||;LOF=(BPIFA3|BPIFA3|2|1.00)
+ANN=AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_178466.4|protein_coding|1/7|c.62delC|p.Pro21fs|289/1181|62/765|21/254||,AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_001042439.2|protein_coding|1/6|c.62delC|p.Pro21fs|289/1073|62/657|21/218||
 ```
 
 A single variant can have more than one annotation, so each ANN field is a comma-separated list. The second line has two annotations:
 
 ```bash
 AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_178466.4|protein_coding|1/7|c.62delC|p.Pro21fs|289/1181|62/765|21/254||
-AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_001042439.2|protein_coding|1/6|c.62delC|p.Pro21fs|289/1073|62/657|21/218||;LOF=(BPIFA3|BPIFA3|2|1.00)
-
+AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_001042439.2|protein_coding|1/6|c.62delC|p.Pro21fs|289/1073|62/657|21/218||
 ```
 
 
