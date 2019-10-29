@@ -37,7 +37,7 @@ A genome annotation can give us a wide array of information about genomic featur
 
 For a given annotation (and it's important to recognize that functional prediction is conditional on the quality and completeness of the annotation), variants can be categorized based on their predicted biological impact. 
 
-Perhaps the most widely used tool for predicting functional effects of variants given a VCF and genome annotation is (SnpEff)[http://snpeff.sourceforge.net/SnpEff.html]. 
+Perhaps the most widely used tool for predicting functional effects of variants given a VCF and genome annotation is [SnpEff](http://snpeff.sourceforge.net/SnpEff.html). 
 
 ___
 scripts:
