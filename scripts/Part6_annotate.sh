@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --job-name=bcf_vcf
+#SBATCH --job-name=snpEff
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 1
-#SBATCH --mem=50G
+#SBATCH --mem=8G
 #SBATCH --qos=mcbstudent
 #SBATCH --partition=mcbstudent
 #SBATCH --mail-user=
@@ -21,6 +21,24 @@ module load snpEff/4.3q
 # make a directory if it doesn't exist
 mkdir -p annotated_vcfs
 cd annotated_vcfs
+
+
+### functional prediction annotations with SnpEff
+
+VCF=../filtered_vcfs/fb_filter.vcf.gz
+
+# here -dataDir creates a directory where the hg38 database will be downloaded to
+# the default directory cannot be written to by users
+
+java -Xmx8G -jar $SNPEFF eff -dataDir ~/cbc_projects/vc_workshop/annotated_vcfs/temp_data hg38 $VCF > fb_filter.ann.vcf.gz
+	
+
+
+
+
+
+### Annotating variants with dbSNP rsids. 
+
 
 # get the dbsnp set for chromosome 20
 	# do a bunch of reformatting to make sure it works with the following steps
