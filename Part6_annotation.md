@@ -38,7 +38,7 @@ A genome annotation can give us a wide array of information about genomic featur
 
 For a given genome annotation, variants can be categorized based on their predicted biological impact. As an aside, it's important to recognize that the quality of functional prediction is conditional on the quality and completeness of the genome annotation. 
 
-One of the most widely used tool for predicting functional effects of variants given a VCF and genome annotation is [`SnpEff`](http://snpeff.sourceforge.net/SnpEff.html), which is what we'll use here (but see also [VEP](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0974-4), and [ANNOVAR](https://academic.oup.com/nar/article/38/16/e164/1749458)). `SnpEff's` predictions stem entirely from the annotation of the primary DNA sequence, and so they do not account for the effects of secondary or tertiary structure of amino acid sequences, location with respect to important motifs within genes, or sequence conservation among species. 
+One of the most widely used tool for predicting functional effects of variants given a VCF and genome annotation is [`SnpEff`](http://snpeff.sourceforge.net/SnpEff.html), which is what we'll use here (but see also [VEP](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0974-4), and [ANNOVAR](https://academic.oup.com/nar/article/38/16/e164/1749458)). `SnpEff's` predictions stem entirely from the annotation of the primary DNA sequence, and so they do not account for the effects of secondary or tertiary structure of amino acid sequences, location with respect to important motifs within genes, or sequence conservation among species. For an approach that makes predictions based on amino acid sequence conservation across homologs, see [PROVEAN](http://provean.jcvi.org/index.php)
 
 ___
 
@@ -97,14 +97,14 @@ ANN=C|stop_lost|HIGH|DEFB119|DEFB119|transcript|NM_153323.4|protein_coding|2/2|c
 ANN=AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_178466.4|protein_coding|1/7|c.62delC|p.Pro21fs|289/1181|62/765|21/254||,AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_001042439.2|protein_coding|1/6|c.62delC|p.Pro21fs|289/1073|62/657|21/218||
 ```
 
-A VCF record can have more than one annotation, so each ANN field is a comma-separated list. The second line has two annotations, corresponding to effects on two different transcripts of the gene BPIFA3:
+A VCF record can have more than one annotation, so each ANN field is a comma-separated list. The second record (position 33217596) has two annotations, corresponding to effects on two different transcripts of the gene BPIFA3:
 
 ```bash
 AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_178466.4|protein_coding|1/7|c.62delC|p.Pro21fs|289/1181|62/765|21/254||
 AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_001042439.2|protein_coding|1/6|c.62delC|p.Pro21fs|289/1073|62/657|21/218||
 ```
 
-Each annotation is formatted as 16 subfields, separated by "|" and defined in the [manual](http://snpeff.sourceforge.net/SnpEff_manual.html). The first three being most salient: the allele, the effect (here, a frameshift for both annotations), and a predicted impact (here "HIGH"). The rest of the subfields describe the details of the feature and how the variant alters it. The effect and the feature type (subfield 6) are part of a controlled vocabulary, or ontology, called [the Sequence Ontology](http://www.sequenceontology.org/). 
+Each annotation is formatted as 16 subfields, separated by "|" and defined in the [manual](http://snpeff.sourceforge.net/SnpEff_manual.html). The first three are most salient: the allele, the effect (here, a frameshift for both annotations), and a predicted impact (here "HIGH"). The rest of the subfields describe the details of the feature and how the variant alters it. The effect and the feature type (subfield 6) are part of a controlled vocabulary, or ontology, called [the Sequence Ontology](http://www.sequenceontology.org/). 
 
 `SnpEff` also produces the files `snpEff_summary.html` and `snpEff_genes.txt`. These summarize the set of variants that have been annotated. Download `snpEff_summary.html` to your local machine and view it in a web browser to see variant annotations broken down in various ways. 
 
