@@ -14,8 +14,8 @@
 hostname
 date
 
+module load htslib/1.7
 module load bcftools/1.6
-module load htslib
 module load snpEff/4.3q
 
 # make a directory if it doesn't exist
@@ -30,7 +30,7 @@ VCF=../filtered_vcfs/fb_filter.vcf.gz
 # here -dataDir creates a directory where the hg38 database will be downloaded to
 # the default directory cannot be written to by users
 
-java -Xmx8G -jar $SNPEFF eff -dataDir ~/cbc_projects/vc_workshop/annotated_vcfs/temp_data hg38 $VCF > fb_filter.ann.vcf.gz
+java -Xmx8G -jar $SNPEFF eff -dataDir $(pwd)/snpeff_data hg38 $VCF | bgzip -c > fb_filter.ann.vcf
 	
 
 

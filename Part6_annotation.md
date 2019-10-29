@@ -7,7 +7,7 @@ This section of the tutorial deals with annotating variants.  It assumes you hav
 Steps here will use the following software packages:
 
 - [ SnpEff ](http://snpeff.sourceforge.net/SnpEff.html)
-- []()
+- [ bgzip ](http://www.htslib.org/doc/bgzip.html)
 
 Each major step below has an associated bash script tailored to the UConn CBC Xanadu cluster with appropriate headers for the [Slurm](https://slurm.schedmd.com/documentation.html) job scheduler. The code can easily be modified to run interactively, or in other contexts. 
 
@@ -39,7 +39,7 @@ For a given genome annotation, variants can be categorized based on their predic
 
 One of the most widely used tool for predicting functional effects of variants given a VCF and genome annotation is [`SnpEff`](http://snpeff.sourceforge.net/SnpEff.html), which is what we'll use here (but see also [VEP](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0974-4), and [ANNOVAR](https://academic.oup.com/nar/article/38/16/e164/1749458)). `SnpEff's` predictions stem entirely from the annotation of the primary DNA sequence, and so they do not account for the effects of secondary or tertiary structure of amino acid sequences, location with respect to important motifs within genes, or sequence conservation among species. 
 
-To run, `SnpEff` requires a database generated from a reference genome and annotation. There are many prebuilt databases, which can be downloaded. The list can be viewed by typing:
+To run, `SnpEff` requires a database generated from a reference genome and annotation. There are many pre-built databases, which can be downloaded. The list can be viewed by typing:
 
 ```bash
 module load snpEff/4.3q
@@ -53,14 +53,29 @@ hg19kg                                                      	Homo_sapiens (UCSC 
 hg38                                                        	Homo_sapiens (USCS)                                         	          	                              	http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_hg38.zip
 hg38kg                                                      	Homo_sapiens (UCSC KnownGenes)                              	          	                              	http://downloads.sourceforge.net/project/snpeff/databases/v4_3/snpEff_v4_3_hg38kg.zip
 ```
-You can refer to specific pre-built databases by the names in the first column, e.g. hg38. 
+You can refer to specific pre-built databases by the names in the first column, e.g. hg38. If the species you work on does not have a pre-built database, you can [build one](http://snpeff.sourceforge.net/SnpEff_manual.html#databases). 
 
-If the species you work on does not have a pre-built database, you can [build one](http://snpeff.sourceforge.net/SnpEff_manual.html#databases). 
+Distributions of `SnpEff` do not contain all the pre-built databases, so if you're using one when you run it for the first time, it's likely it will need to download it. If you have your own copy of SnpEff, it will download it without a hitch. If you're using the `module` version on the Xanadu cluster, you will need to specify a full path to a data directory of your choosing with the option `-dataDir`, because you don't have write access to `SnpEff's` directory. 
 
-takes in a genome annotation, a reference genome, and a VCF file, and outputs a VCF file with annotations added to the INFO field, and tables of summaries of the predicted biological impact of the variants. 
+That said, it's easy to run the program like this:
 
+```bash
+module load htslib/1.7
+module load snpEff/4.3q
 
+# freebayes filtered vcf file
+VCF=../filtered_vcfs/fb_filter.vcf.gz
 
+java -Xmx8G -jar $SNPEFF eff -dataDir $(pwd)/snpeff_data hg38 $VCF | bgzip -c > fb_filter.ann.vcf
+	
+```
+
+This will annotate our filtered `freebayes` output. `SnpEff` is very fast, so the longest part of this analysis will actually be downloading the 0.5G database. 
+
+The output will be the original VCF file with the annotation added to the INFO field. A few example lines:
+
+```bash
+```
 
 
 ___
@@ -81,6 +96,6 @@ scripts:
 
 
 bcftools annotate does simple matching. does not account for complex alleles or incompatible representations. 
-
+`
 --dbsnp in haplotypecaller can accept a vcf file and annotate snps
 
