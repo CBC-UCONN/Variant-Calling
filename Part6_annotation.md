@@ -15,7 +15,7 @@ Each major step below has an associated bash script tailored to the UConn CBC Xa
   
 1.    [ Motivation ](#Motivation)
 2.    [ Update your working directory ](#Update-your-working-directory)  
-3.    [ Predicting the functional effects of variants ](#Predicting-the-functional)
+3.    [ Predicting the functional effects of variants ](#Predicting-the-functional-effects-of-variants)
 
 ## Motivation
 
