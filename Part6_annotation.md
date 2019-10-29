@@ -95,6 +95,14 @@ ANN=C|stop_lost|HIGH|DEFB119|DEFB119|transcript|NM_153323.4|protein_coding|2/2|c
 ANN=AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_178466.4|protein_coding|1/7|c.62delC|p.Pro21fs|289/1181|62/765|21/254||,AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_001042439.2|protein_coding|1/6|c.62delC|p.Pro21fs|289/1073|62/657|21/218||;LOF=(BPIFA3|BPIFA3|2|1.00)
 ```
 
+A single variant can have more than one annotation, so each ANN field is a comma-separated list. The second line has two annotations:
+
+```bash
+AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_178466.4|protein_coding|1/7|c.62delC|p.Pro21fs|289/1181|62/765|21/254||
+AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_001042439.2|protein_coding|1/6|c.62delC|p.Pro21fs|289/1073|62/657|21/218||;LOF=(BPIFA3|BPIFA3|2|1.00)
+
+```
+
 
 ___
 scripts:
