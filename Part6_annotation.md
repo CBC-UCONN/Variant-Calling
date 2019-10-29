@@ -73,9 +73,19 @@ java -Xmx8G -jar $SNPEFF eff -dataDir $(pwd)/snpeff_data hg38 $VCF | bgzip -c > 
 
 This will annotate our filtered `freebayes` output. `SnpEff` is very fast, so the longest part of this analysis will actually be downloading the 0.5G database. 
 
-The output will be the original VCF file with the annotation added to the INFO field. A few example lines:
+The output will be the original VCF file with the annotation added to the INFO field. Let's look at a couple that have impact categorized as "HIGH":
 
 ```bash
+bcftools view -H -f PASS fb_filter.ann.vcf.gz | grep HIGH
+```
+
+With the resulting two VCF records:
+
+
+```bash
+chr20	31389027	.	A	C	1060.99	PASS	AB=0.483516;ABP=3.22506;AC=1;AF=0.166667;AN=6;AO=45;CIGAR=1X;DP=225;DPB=225;DPRA=2.11628;EPP=13.8677;EPPR=3.11948;GTI=0;LEN=1;MEANALT=1.5;MQM=60;MQMR=59.9553;NS=3;NUMALT=1;ODDS=41.7753;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=1577;QR=6054;RO=179;RPL=24;RPP=3.44459;RPPR=3.11948;RPR=21;RUN=1;SAF=24;SAP=3.44459;SAR=21;SRF=100;SRP=8.36013;SRR=79;TYPE=snp;ANN=C|stop_lost|HIGH|DEFB119|DEFB119|transcript|NM_153323.4|protein_coding|2/2|c.265T>G|p.Ter89Gluext*?|431/490|265/267|89/88||,C|stop_lost|HIGH|DEFB119|DEFB119|transcript|NM_001271209.1|protein_coding|2/2|c.262T>G|p.Ter88Gluext*?|428/487|262/264|88/87||,C|intron_variant|MODIFIER|DEFB119|DEFB119|transcript|NM_153289.3|protein_coding|1/1|c.61+1396T>G||||||,C|intron_variant|MODIFIER|DEFB119|DEFB119|transcript|NR_073151.1|pseudogene|1/3|n.228-668T>G||||||,C|intron_variant|MODIFIER|DEFB119|DEFB119|transcript|NR_073152.1|pseudogene|1/2|n.228-668T>G||||||,C|intron_variant|MODIFIER|DEFB119|DEFB119|transcript|NR_073153.1|pseudogene|1/2|n.227+1396T>G||||||,C|intron_variant|MODIFIER|DEFB119|DEFB119|transcript|NR_126440.1|pseudogene|1/1|n.227+1396T>G||||||	GT:DP:AD:RO:QR:AO:QA:GL	0/1:91:46,44:46:1452:44:1567:-114.109,0,-103.744	0/0:91:90,1:90:3078:1:10:0,-26.3937,-276.181	0/0:43:43,0:43:1524:0:0:0,-12.9443,-137.401
+chr20	33217596	.	ACC	AC	1436.76	PASS	AB=0.504202;ABP=3.02855;AC=2;AF=0.333333;AN=6;AO=60;CIGAR=1M1D1M;DP=205;DPB=185;DPRA=0.69186;EPP=3.58936;EPPR=3.02549;GTI=0;LEN=1;MEANALT=1.5;MQM=60;MQMR=60;NS=3;NUMALT=1;ODDS=75.9105;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=2084;QR=4906;RO=143;RPL=26;RPP=5.32654;RPPR=4.8477;RPR=34;RUN=1;SAF=26;SAP=5.32654;SAR=34;SRF=80;SRP=7.3988;SRR=63;TYPE=del;ANN=AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_178466.4|protein_coding|1/7|c.62delC|p.Pro21fs|289/1181|62/765|21/254||,AC|frameshift_variant|HIGH|BPIFA3|BPIFA3|transcript|NM_001042439.2|protein_coding|1/6|c.62delC|p.Pro21fs|289/1073|62/657|21/218||;LOF=(BPIFA3|BPIFA3|2|1.00)	GT:DP:AD:RO:QR:AO:QA:GL	0/1:77:35,41:35:1207:41:1392:-102.499,0,-85.8728	0/0:86:85,0:85:2890:0:0:0,-25.5875,-259.891	0/1:42:23,19:23:809:19:692:-49.9554,0,-60.4688
+
 ```
 
 
