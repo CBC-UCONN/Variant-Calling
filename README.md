@@ -25,8 +25,6 @@ __Structure:__
 
 	b. [ Variant calling: GATK, joint calling using gvcf ](Part4b_gatk.md)
 
-	c. Beyond variant calling: genotype likelihoods. 
-
 5. [ Filtering and comparing variant sets ](Part5_filtering_comparing.md) 
 
 6. [ Variant annotation ](Part6_annotation.md)
