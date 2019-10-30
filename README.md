@@ -33,24 +33,16 @@ __Structure:__
 
 __Data:__
 
-[NIST Genome in a Bottle](https://www.nist.gov/programs-projects/genome-bottle) chinese trio. 
-Region chr20:29400000-34400000
+In this tutorial we will use human whole genome sequence data from the [NIST Genome in a Bottle](https://www.nist.gov/programs-projects/genome-bottle) project. The data are Illumina paired-end sequence data from a chinese trio consisting of a mother, father and son. For the son, the data are 2x250bp reads at 100x coverage. For the parents, the data are 2x150bp reads at 50x coverage. To make things run quickly, we'll only analyze a 5mb region of chromosome 20: chr20:29400000-34400000
 
-This is an arbitrary 5mb region of the genome. It is:
-- near the centromere. 
-- has a couple regions with mapping problems. 
-- takes only a few minutes to align. 
-- 50-100x whole genome shotgun sequencing for each of 3 individuals. 
-	- 2x250bp paired-end reads for the son
-	- 2x150bp paired-end for the parents
+This 5mb region of the genome is somewhat arbitrary, but it is near the centromere and has a few regions with mapping problems that can help illustrate technical issues that might arise during variant calling. 
 
-For a reference, we'll use GRCh38. The specific version we'll use is [recommended by Heng Li, author of bwa](https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use) for variant calling. 
+For the reference genome, we'll use GRCh38. The specific version we'll use is [recommended by Heng Li, author of bwa](https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use) for variant calling. 
 
 _Source:_
 - [GiaB](https://www.nist.gov/programs-projects/genome-bottle)
-- ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/
-- [Heng Li's recommendation](https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use)
-- ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz
+- [GiaB FTP site](ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/)
+- Heng Li [recommends](https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use) to use [this version](ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz) of the human genome for variant calling. 
 
 __Required software tools:__
 
