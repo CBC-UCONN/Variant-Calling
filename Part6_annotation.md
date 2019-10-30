@@ -115,9 +115,53 @@ scripts:
 - []()
 
 
-## Connecting variants with existing databases
+## Connecting variants with existing knowledge
 
+The second sort of annotation we'll cover here is adding marking up the VCF file with external information for variants that have been previously observed. This could take the form of database identifiers added to the ID field (column 3), or additional tags added to the INFO field (column 8) corresponding to information about, say the alternate allele frequency from a large population study. This can provide important context for understanding the results of an experiment. 
 
+There are a number of tools that can do accomplish this with many different input data types, including [`VariantAnnotator`](https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_annotator_VariantAnnotator.php), a part of `GATK`, [`vcfanno`](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0973-5), and `bcftools`. Here we will use `bcftools` to lift over database identifiers from a VCF obtained from dbSNP to the ID field in one of our VCF files. 
+
+[dbSNP](https://www.ncbi.nlm.nih.gov/snp/) is a large database of small human genomic variants (including SNPs, indels, microsatellites) hosted by [NCBI](https://www.ncbi.nlm.nih.gov/). Data are submitted by researchers and unique variants are given Reference SNP IDs (RSIDs). 
+
+In order to do this, we need a VCF file from dbSNP with the RSIDs. We _could_ download the whole file, but it would be pretty big, so here, to keep things quick, we'll just download the 7mb spanning our region of interest. There are two small issues we'll have to deal with. First, the dbSNP VCF names chromosomes differently than our reference genome does (20 vs chr20), so we'll have to swap out the chromosome names. Second, when we use `tabix` to download the VCF file, we don't get the full "sequence dictionary" or ordered list of contigs that is usually present in the VCF header, so we're goign to use a `GATK` program `UpdateVCFSequenceDictionary` to fix that. 
+
+```bash
+	# download only a section of chr20 from dbsnp
+	tabix -h ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606/VCF/00-All.vcf.gz 20:28000000-35000000 | \
+	sed 's/^20/chr20/' | \
+	bgzip -c >chr20.dbsnp.vcf.gz
+	tabix -p vcf chr20.dbsnp.vcf.gz
+	# update the sequence dictionary
+	gatk UpdateVCFSequenceDictionary -V chr20.dbsnp.vcf.gz --source-dictionary ../align_pipe/son.bam --output chr20.dbsnp.contig.vcf.gz --replace=true
+	tabix -p vcf chr20.dbsnp.contig.vcf.gz
+```
+
+Now we have a dbSNP VCF file we can compare with our `freebayes` VCF file using `bcftools`. We should make sure ours is indexed and then run the annotation command:
+
+```bash
+# annotate:
+tabix -p vcf fb_filter.ann.vcf.gz
+bcftools annotate -c ID \
+--output-type z \
+-a chr20.dbsnp.contig.vcf.gz \
+fb_filter.ann.vcf.gz >fb_filter.ann.RSID.vcf.gz
+```
+
+Now if we look at the output:
+
+```bash
+chr20	30856546	rs1840614	A	T	6019.04	PASS	AB=0.464286;ABP=4.56135;AC=3;AF=0.75;AN=4;AO=195;CIGAR=1X;DP=270;DPB=270;DPRA=0;EPP=11.1283;EPPR=13.4623;GTI=0;LEN=1;MEANALT=1;MQM=59.2205;MQMR=59.76;NS=2;NUMALT=1;ODDS=118.287;PAIRED=1;PAIREDR=1;PAO=0;PQA=0;PQR=0;PRO=0;QA=7269;QR=2798;RO=75;RPL=83;RPP=12.3755;RPPR=7.90335;RPR=112;RUN=1;SAF=112;SAP=12.3755;SAR=83;SRF=46;SRP=11.3777;SRR=29;TYPE=snp;ANN=T|intergenic_region|MODIFIER|MLLT10P1-DEFB115|MLLT10P1-DEFB115|intergenic_region|MLLT10P1-DEFB115|||n.30856546A>T||||||	GT:DP:AD:RO:QR:AO:QA:GL	1/1:130:0,130:0:0:130:4876:-438.461,-39.1339,0	0/1:140:75,65:75:2798:65:2393:-173.357,0,-209.832	.:.:.:.:.:.:.:.
+chr20	30857475	.	GC	TA	1189.72	PASS	AB=0.236311;ABP=212.579;AC=2;AF=0.5;AN=4;AO=82;CIGAR=2X;DP=347;DPB=350.5;DPRA=0;EPP=11.5903;EPPR=3.41487;GTI=0;LEN=2;MEANALT=2;MQM=42.1463;MQMR=51.7376;NS=2;NUMALT=1;ODDS=125.323;PAIRED=1;PAIREDR=1;PAO=7;PQA=205;PQR=0;PRO=0;QA=2886;QR=9282;RO=263;RPL=53;RPP=18.2636;RPPR=15.5685;RPR=29;RUN=1;SAF=73;SAP=111.478;SAR=9;SRF=118;SRP=9.02932;SRR=145;TYPE=complex;ANN=TA|intergenic_region|MODIFIER|MLLT10P1-DEFB115|MLLT10P1-DEFB115|intergenic_region|MLLT10P1-DEFB115|||n.30857475_30857476delGCinsTA||||||	GT:DP:AD:RO:QR:AO:QA:GL	0/1:158:115,42:115:4093:42:1474:-82.5676,0,-316.853	0/1:189:148,40:148:5189:40:1412:-79.5811,0,-403.4	.:.:.:.:.:.:.:.
+```
+
+As we saw in Part 5, `freebayes` and `GATK` output haplotype alleles. `bcftools annotate` only does simple matching of alleles, however, and won't reconcile these haplotypes with equivalent variants with differing representation. In the second line above, position 30857475, we see a 2-base variant with no RSID. However, if we look in the dbSNP VCF we can see that had it been broken down into two SNPs G/T and C/A, we would have tagged each with RSIDs:
+
+```bash
+chr20	30857475	rs1223999426	G	A,T	.	.	ASP;RS=1223999426;RSPOS=30857475;SAO=0;SSR=0;TOPMED=0.49991239806320081,0.00007963812436289,0.50000796381243628;VC=SNV;VP=0x050000000005000002000100;WGT=1;dbSNPBuildID=151
+chr20	30857476	rs1290891491	C	A	.	.	ASP;RS=1290891491;RSPOS=30857476;SAO=0;SSR=0;TOPMED=0.50000000000000000,0.50000000000000000;VC=SNV;VP=0x050000000005000002000100;WGT=1;dbSNPBuildID=151
+```
+
+To ensure this sort of thing does not confound analyses, you can use `vcfallelicprimitives` to break down and standardize the representation of haplotype variants where possible. 
 
 scripts:
 - []()
@@ -126,6 +170,7 @@ scripts:
 
 
 bcftools annotate does simple matching. does not account for complex alleles or incompatible representations. 
-`
+
 --dbsnp in haplotypecaller can accept a vcf file and annotate snps
+
 
