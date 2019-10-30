@@ -163,6 +163,8 @@ chr20	30857476	rs1290891491	C	A	.	.	ASP;RS=1290891491;RSPOS=30857476;SAO=0;SSR=0
 
 To ensure this sort of thing does not confound analyses, you can use `vcfallelicprimitives` to break down and standardize the representation of haplotype variants where possible. 
 
+___
+
 scripts:
 - [scripts/Part6b_annotate_dbSNP.sh](scripts/Part6b_annotate_dbSNP.sh)
 
