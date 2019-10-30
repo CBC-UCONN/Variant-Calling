@@ -1,6 +1,6 @@
 # Variant discovery tutorials
 
-This repository contains re-worked variant detection tutorials for UConn CBC workshops. 
+This repository contains a variant detection tutorial for UConn CBC workshops. 
 
 ## Introduction
 
@@ -31,7 +31,7 @@ __Structure:__
 
 6. [ Variant annotation ](Part6_annotation.md)
 
-__Proposed data:__
+__Data:__
 
 [NIST Genome in a Bottle](https://www.nist.gov/programs-projects/genome-bottle) chinese trio. 
 Region chr20:29400000-34400000
