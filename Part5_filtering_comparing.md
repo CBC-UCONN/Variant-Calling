@@ -175,8 +175,6 @@ For reference, another commonly used tool for evaluating VCF files is [vcfeval](
 
 A discussion of the issue of variant normalization can be found [here](https://genome.sph.umich.edu/wiki/Variant_Normalization)
 
-___
-scripts:
-- []()
+
 
 

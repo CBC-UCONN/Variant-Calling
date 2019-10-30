@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=snpEff
+#SBATCH --job-name=dbSNP
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 1
