@@ -18,8 +18,8 @@ Each major step below has an associated bash script tailored to the UConn CBC Xa
   
 1.    [ Motivation ](#Motivation)
 1.    [ Update your working directory ](#Update-your-working-directory)  
-2.    [ Decide where to call variants ]()
-3.    [ Call variants ]()
+2.    [ Decide where to call variants ](#Decide-where-to-call-variants)
+3.    [ Call variants ](#Call-variants)
 
 
 ## Motivation
