@@ -31,7 +31,7 @@ __Structure:__
 
 __Data:__
 
-In this tutorial we will use human whole genome shotgun sequence data from the [NIST Genome in a Bottle](https://www.nist.gov/programs-projects/genome-bottle) project. The data are Illumina paired-end sequence data from a chinese trio consisting of a mother, father and son. For the son, the data are 2x250bp reads at 100x coverage. For the parents, the data are 2x150bp reads at 50x coverage. To make things run quickly, we'll only analyze a 5mb region of chromosome 20: chr20:29400000-34400000
+In this tutorial we will use human __whole genome shotgun sequence data__ from the [NIST Genome in a Bottle](https://www.nist.gov/programs-projects/genome-bottle) project. The data are Illumina paired-end sequence data from a chinese trio consisting of a mother, father and son. For the son, the data are 2x250bp reads at 100x coverage. For the parents, the data are 2x150bp reads at 50x coverage. To make things run quickly, we'll only analyze a 5mb region of chromosome 20: chr20:29400000-34400000
 
 This 5mb region of the genome is somewhat arbitrary, but it is near the centromere and has a few regions with mapping problems that can help illustrate technical issues that might arise during variant calling. 
 
