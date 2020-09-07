@@ -18,11 +18,12 @@ date
 module load bwa/0.7.17
 module load samtools
 
-mkdir -p ../align_stepwise
-
 # set input and output directories
-indir=../rawdata
-outdir=../align_stepwise
+INDIR=../rawdata
+OUTDIR=../align_stepwise
+
+mkdir -p $OUTDIR
+
 
 # current location of indexed HG38
 # may need to be changed. 
@@ -32,12 +33,12 @@ GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction
 
 # each line aligns one family member's sequences
 # son
-bwa mem -t 12 -R '@RG\tID:son\tSM:son' $GEN $indir/son.1.fq $indir/son.2.fq -o $outdir/son.sam 
+bwa mem -t 12 -R '@RG\tID:son\tSM:son' $GEN $INDIR/son.1.fq $INDIR/son.2.fq -o $OUTDIR/son.sam 
 date
 # mom
-bwa mem -t 12 -R '@RG\tID:mom\tSM:mom' $GEN $indir/mom.1.fq $indir/mom.2.fq -o $outdir/mom.sam 
+bwa mem -t 12 -R '@RG\tID:mom\tSM:mom' $GEN $INDIR/mom.1.fq $INDIR/mom.2.fq -o $OUTDIR/mom.sam 
 date
 # dad
-bwa mem -t 12 -R '@RG\tID:dad\tSM:dad' $GEN $indir/dad.1.fq $indir/dad.2.fq -o $outdir/dad.sam 
+bwa mem -t 12 -R '@RG\tID:dad\tSM:dad' $GEN $INDIR/dad.1.fq $INDIR/dad.2.fq -o $OUTDIR/dad.sam 
 date
 
