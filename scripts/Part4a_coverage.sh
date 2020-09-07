@@ -32,12 +32,12 @@ mkdir -p $OUTDIR
 FAI=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta.fai
 
 # make a "genome" file, required by bedtools makewindows command, set variable for location
-cut -f 1-2 $FAI > $OUTDIR/Homo_sapiens_assembly38.fasta.genome
 GFILE=$OUTDIR/Homo_sapiens_assembly38.fasta.genome
+cut -f 1-2 $FAI > $GFILE
 
 # make 1kb window bed file, set variable for location
-bedtools makewindows -g $GFILE -w 1000 >hg38_1kb.bed
 WIN1KB=$OUTDIR/hg38_1kb.bed
+bedtools makewindows -g $GFILE -w 1000 >$WIN1KB
 
 
 # make a list of bam files
