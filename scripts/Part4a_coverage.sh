@@ -21,6 +21,7 @@ date
 module load bedtools
 module load bamtools
 module load htslib
+module load samtools
 
 # define and/or create input, output directories
 
@@ -56,11 +57,10 @@ bedtools map \
 -a $WIN1KB \
 -b stdin \
 -c 5 -o mean,median,count \
--g $GFILE \
->$OUTDIR/coverage_1kb.bed
+-g $GFILE | \
+bgzip >$OUTDIR/coverage_1kb.bed.gz
 
 # bgzip compress and tabix index the resulting file
-bgzip $OUTDIR/coverage_1kb.bed
 tabix -p bed $OUTDIR/coverage_1kb.bed.gz
 
 # select and merge outlier windows
