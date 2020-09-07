@@ -27,7 +27,7 @@ mkdir -p $OUTDIR
 
 # current location of indexed HG38
 # may need to be changed. 
-GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
+GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
 
 # note that read group info is added during alignment. 
 
