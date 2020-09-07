@@ -34,7 +34,7 @@ cd ../align_pipe
 find ../align_pipe/ -name "*bam" >bam.list
 
 # set a variable for the reference genome location
-GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
+GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
 
 OUTLIERWINDOWS=../coverage_stats/coverage_outliers.bed.gz
 
