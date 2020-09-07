@@ -3,8 +3,8 @@
 # run all tutorial scripts using slurm dependencies
 
 jid1=$(sbatch --parsable Part1a_datadownload.sh )
-jid2=$(sbatch --parsable --dependency=afterok:$jid1 Part1b2_sickle_fastqc.sh )
-jid3=$(sbatch --parsable --dependency=afterok:$jid2 Part1b_fastqc.sh )
+jid2=$(sbatch --parsable --dependency=afterok:$jid1 Part1b1_fastqc.sh )
+jid3=$(sbatch --parsable --dependency=afterok:$jid2 Part1b2_sickle_fastqc.sh )
 jid4=$(sbatch --parsable --dependency=afterok:$jid3 Part1c_align.sh )
 jid5=$(sbatch --parsable --dependency=afterok:$jid4 Part1d_compress.sh )
 jid6=$(sbatch --parsable --dependency=afterok:$jid5 Part1e_sort.sh )
