@@ -20,6 +20,7 @@ module load fastqc
 
 # create output directory
 OUTDIR=../fastqc
+mkdir -p $OUTDIR
 
 # run fastqc. "*fq" tells it to run on all fastq files in directory "../rawdata/"
 fastqc -t 6 -o $OUTDIR ../rawdata/*fq
