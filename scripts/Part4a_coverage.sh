@@ -67,5 +67,14 @@ tabix -p bed $OUTDIR/coverage_1kb.bed.gz
 zcat $OUTDIR/coverage_1kb.bed.gz | awk '$6 < 850 || $6 > 2550' | bedtools merge | bgzip >$OUTDIR/coverage_outliers.bed.gz 
 tabix -p bed $OUTDIR/coverage_outliers.bed.gz
 
+# calculate per-base coverage as well	
+bamtools merge -list $OUTDIR/bam.list | \
+bamtools filter -in - -mapQuality ">30" -isDuplicate false -isProperPair true | 
+samtools depth -d 20000 /dev/stdin | \
+bgzip >$OUTDIR/per_base_coverage.txt.gz
+
 date
+
+
+
 
