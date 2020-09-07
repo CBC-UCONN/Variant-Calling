@@ -22,6 +22,7 @@ module load bedtools
 # script assumes it is run in directory vc_workshop/scripts
 
 outdir=../rawdata/
+mkdir -p $outdir
 
 # download a subregion of chinese GIAB trio: chr20:29400000-34400000
 # sort reads by name, convert to fastq. 
