@@ -16,10 +16,9 @@ date
 
 module load htslib
 
+# set input directory
+INDIR=../variants_bcftools
 
-# move to variant
-cd ../variants_bcftools
-
-tabix -p vcf chinesetrio.vcf.gz
+tabix -p vcf $INDIR/chinesetrio.vcf.gz
 
 date

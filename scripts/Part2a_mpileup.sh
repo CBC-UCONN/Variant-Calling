@@ -16,23 +16,23 @@ date
 
 module load bcftools
 
-# make directory if it doesn't exist. 
-mkdir -p ../variants_bcftools
+INDIR=../align_stepwise
+# make output directory if it doesn't exist. 
+OUTDIR=../variants_bcftools
+mkdir -p $OUTDIR
 
-# move to alignment directory
-cd ../align_stepwise
 
 # make a list of bam files
-ls *mkdup.bam >list.bam
+ls $INDIR/*mkdup.bam >$INDIR/list.bam
 
 # set reference genome location
-GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
+GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
 
 bcftools mpileup \
 	-f $GEN \
-	-b list.bam \
-	-q 20 -Q 30 \
-	-r chr20:29400000-34400000 >../variants_bcftools/chinesetrio.pileup
-
+	-b $INDIR/list.bam \
+	-q 20 \
+	-Q 30 \
+	-r chr20:29400000-34400000 >$OUTDIR/chinesetrio.pileup
 date
 

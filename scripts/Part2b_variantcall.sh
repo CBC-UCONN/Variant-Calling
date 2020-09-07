@@ -16,10 +16,8 @@ date
 
 module load bcftools
 
+INDIR=../variants_bcftools
 
-# move to variant
-cd ../variants_bcftools
-
-bcftools call -m -v -Oz -o chinesetrio.vcf.gz chinesetrio.pileup
+bcftools call -m -v -Oz -o $INDIR/chinesetrio.vcf.gz $INDIR/chinesetrio.pileup
 
 date
