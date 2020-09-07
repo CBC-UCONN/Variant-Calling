@@ -20,7 +20,7 @@ module load samblaster
 module load bwa/0.7.17
 
 # raw data directory
-$INDIR=../rawdata
+INDIR=../rawdata
 
 # specify and create output directory
 OUTDIR=../align_pipe
