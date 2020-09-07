@@ -19,31 +19,35 @@ module load samtools
 module load samblaster
 module load bwa/0.7.17
 
-# make sure alignment directory exists
-mkdir -p ../results/align_pipe
+# raw data directory
+$INDIR=../rawdata
+
+# specify and create output directory
+OUTDIR=../align_pipe
+mkdir -p $OUTDIR
 
 # set a variable 'GEN' that gives the location and base name of the reference genome:
-GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
+GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
 
 # execute the pipe for the son:
-bwa mem -t 7 -R '@RG\tID:son\tSM:son' $GEN ../rawdata/son.1.fq ../rawdata/son.2.fq | \
+bwa mem -t 7 -R '@RG\tID:son\tSM:son' $GEN $INDIR/son.1.fq $INDIR/son.2.fq | \
 samblaster | \
 samtools view -S -h -u - | \
-samtools sort -T /scratch/son - >../align_pipe/son.bam
+samtools sort -T /scratch/son - >$OUTDIR/son.bam
 date
 
 # execute the pipe for the mom:
-bwa mem -t 7 -R '@RG\tID:mom\tSM:mom' $GEN ../rawdata/mom.1.fq ../rawdata/mom.2.fq | \
+bwa mem -t 7 -R '@RG\tID:mom\tSM:mom' $GEN $INDIR/mom.1.fq $INDIR/mom.2.fq | \
 samblaster | \
 samtools view -S -h -u - | \
-samtools sort -T /scratch/mom - >../align_pipe/mom.bam
+samtools sort -T /scratch/mom - >$OUTDIR/mom.bam
 date
 
 # execute the pipe for the dad:
-bwa mem -t 7 -R '@RG\tID:dad\tSM:dad' $GEN ../rawdata/dad.1.fq ../rawdata/dad.2.fq | \
+bwa mem -t 7 -R '@RG\tID:dad\tSM:dad' $GEN $INDIR/dad.1.fq $INDIR/dad.2.fq | \
 samblaster | \
 samtools view -S -h -u - | \
-samtools sort -T /scratch/dad - >../align_pipe/dad.bam
+samtools sort -T /scratch/dad - >$OUTDIR/dad.bam
 date
 
 
