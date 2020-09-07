@@ -18,5 +18,8 @@ date
 # load software
 module load fastqc
 
+# create output directory
+OUTDIR=../fastqc
+
 # run fastqc. "*fq" tells it to run on all fastq files in directory "../rawdata/"
-fastqc -t 6 -o ../fastqc ../rawdata/*fq
+fastqc -t 6 -o $OUTDIR ../rawdata/*fq

@@ -21,8 +21,8 @@ module load bedtools
 
 # script assumes it is run in directory vc_workshop/scripts
 
-outdir=../rawdata/
-mkdir -p $outdir
+OUTDIR=../rawdata/
+mkdir -p $OUTDIR
 
 # download a subregion of chinese GIAB trio: chr20:29400000-34400000
 # sort reads by name, convert to fastq. 
@@ -33,20 +33,20 @@ mkdir -p $outdir
 SON='ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/ChineseTrio/HG005_NA24631_son/HG005_NA24631_son_HiSeq_300x/basespace_45x_bams_vcfs_PerFlowCell/150424_HG005_Homogeneity_02_FCA-22108087/150424_HG005_Homogeneity_FCA_Combined-23168145/150424-HG005-Homogeneity-FCA-Combined_S1.bam'
 samtools view -uh $SON chr20:29400000-34400000 | \
 samtools sort -n - | \
-bedtools bamtofastq -i /dev/stdin/ -fq $outdir/son.1.fq -fq2 $outdir/son.2.fq
+bedtools bamtofastq -i /dev/stdin/ -fq $OUTDIR/son.1.fq -fq2 $OUTDIR/son.2.fq
 
 # mom
 MOM='ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/ChineseTrio/HG007_NA24695-hu38168_mother/NA24695_Mother_HiSeq100x/NHGRI_Illumina100X_Chinesetrio_novoalign_bams/HG007.GRCh38_full_plus_hs38d1_analysis_set_minus_alts.100x.bam'
 samtools view -uh $MOM chr20:29400000-34400000 | \
 samtools sort -n - | \
-bedtools bamtofastq -i /dev/stdin/ -fq $outdir/mom.1.fq -fq2 $outdir/mom.2.fq
+bedtools bamtofastq -i /dev/stdin/ -fq $OUTDIR/mom.1.fq -fq2 $OUTDIR/mom.2.fq
 
 # dad
 DAD='ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/ChineseTrio/HG006_NA24694-huCA017E_father/NA24694_Father_HiSeq100x/NHGRI_Illumina100X_Chinesetrio_novoalign_bams/HG006.GRCh38_full_plus_hs38d1_analysis_set_minus_alts.100x.bam'
 samtools view -uh $DAD chr20:29400000-34400000 | \
 samtools sort -n - | \
-bedtools bamtofastq -i /dev/stdin/ -fq $outdir/dad.1.fq -fq2 $outdir/dad.2.fq
+bedtools bamtofastq -i /dev/stdin/ -fq $OUTDIR/dad.1.fq -fq2 $OUTDIR/dad.2.fq
 
 # get rid of bam indexes that were also downloaded
-rm $outdir/*bai
-
+rm $OUTDIR/*bai
+rm *bam.bai
