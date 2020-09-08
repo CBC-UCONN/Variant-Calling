@@ -44,6 +44,7 @@ bedtools makewindows -g $GFILE -w 1000 >$WIN1KB
 # make a list of bam files
 find $INDIR -name "*bam" >$OUTDIR/bam.list
 
+# summarize coverage as the number of fragments mapping to 1kb windows across the genome
 # pipe:
 	# 1) merge bam files
 	# 2) filter by quality and proper pairing
@@ -63,9 +64,14 @@ bgzip >$OUTDIR/coverage_1kb.bed.gz
 # bgzip compress and tabix index the resulting file
 tabix -p bed $OUTDIR/coverage_1kb.bed.gz
 
-# select and merge outlier windows
+# select and merge outlier windows (after deciding what is an outlier by looking at the distribution in R)
 zcat $OUTDIR/coverage_1kb.bed.gz | awk '$6 < 850 || $6 > 2550' | bedtools merge | bgzip >$OUTDIR/coverage_outliers.bed.gz 
 tabix -p bed $OUTDIR/coverage_outliers.bed.gz
+
+# select and merge target windows (inverse of "outlier windows" above)
+zcat $OUTDIR/coverage_1kb.bed.gz | awk '$6 > 850 || $6 < 2550' | bedtools merge | bgzip >$OUTDIR/targets.bed.gz 
+tabix -p bed $OUTDIR/targets.bed.gz
+
 
 # calculate per-base coverage as well	
 bamtools merge -list $OUTDIR/bam.list | \
