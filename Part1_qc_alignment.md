@@ -63,7 +63,9 @@ zcat GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz | bgzip >GCA_000001405.1
 rm GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz
 # set a variable 'GEN' that gives the location of the reference genome:
 GEN=GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.gz
+module load bwa
 bwa index $GEN
+module load samtools
 samtools faidx $GEN
 ```
 
@@ -166,7 +168,7 @@ Again, `*html` will indicate that `scp` should copy all files ending in ".html".
 INSERT FIGURES HERE? OR LEAVE THEM TO WORKSHOP? 
 ___
 scripts: 
-- [scripts/Part1b_fastqc.sh](scripts/Part1b_fastqc.sh)
+- [scripts/Part1b1_fastqc.sh](scripts/Part1b1_fastqc.sh)
 
 ## Quality trim ##
 
@@ -201,7 +203,7 @@ Now that we have QC-ed our sequence data, it's time to align it to a reference g
 
 ```bash
 # set a variable 'GEN' that gives the location and base name of the reference genome:
-GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
+GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
 # execute bwa mem
 bwa mem -t 4 -R '@RG\tID:son\tSM:son' $GEN ../rawdata/son.1.fq ../rawdata/son.2.fq -o ../align_stepwise/son.sam
 ```
