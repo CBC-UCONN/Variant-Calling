@@ -25,7 +25,8 @@ module load freebayes
 
 
 # make a directory for results if it doesn't exist
-mkdir -p ../variants_freebayes 
+OUTDIR=../variants_freebayes
+mkdir -p $OUTDIR 
 
 # change directory to the bam file location
 cd ../align_pipe
@@ -43,8 +44,8 @@ bamtools merge -list bam.list -region chr20:29400000..34400000 | \
 bamtools filter -in stdin -mapQuality ">30" -isProperPair true | \
 bedtools intersect -v -a stdin -b $OUTLIERWINDOWS -nonamecheck | \
 freebayes -f $GEN --stdin | \
-bgzip -c >../variants_freebayes/chinesetrio_fb.vcf.gz
+bgzip -c >$OUTDIR/chinesetrio_fb.vcf.gz
 
-tabix -p vcf ../variants_freebayes/chinesetrio_fb.vcf.gz
+tabix -p vcf $OUTDIR/chinesetrio_fb.vcf.gz
 
 date
