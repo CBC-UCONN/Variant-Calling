@@ -203,7 +203,7 @@ Now that we have QC-ed our sequence data, it's time to align it to a reference g
 
 ```bash
 # set a variable 'GEN' that gives the location and base name of the reference genome:
-GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
+GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
 # execute bwa mem
 bwa mem -t 4 -R '@RG\tID:son\tSM:son' $GEN ../rawdata/son.1.fq ../rawdata/son.2.fq -o ../align_stepwise/son.sam
 ```
