@@ -28,11 +28,8 @@ module load freebayes
 OUTDIR=../variants_freebayes
 mkdir -p $OUTDIR 
 
-# change directory to the bam file location
-cd ../align_pipe
-
 # make a list of bam files
-find ../align_pipe/ -name "*bam" >bam.list
+find ../align_pipe/ -name "*bam" >$OUTDIR/bam.list
 
 # set a variable for the reference genome location
 GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
@@ -40,7 +37,7 @@ GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detectio
 OUTLIERWINDOWS=../coverage_stats/coverage_outliers.bed.gz
 
 # note that bamtools region specification uses ".." instead of "-"
-bamtools merge -list bam.list -region chr20:29400000..34400000 | \
+bamtools merge -list $OUTDIR/bam.list -region chr20:29400000..34400000 | \
 bamtools filter -in stdin -mapQuality ">30" -isProperPair true | \
 bedtools intersect -v -a stdin -b $OUTLIERWINDOWS -nonamecheck | \
 freebayes -f $GEN --stdin | \
