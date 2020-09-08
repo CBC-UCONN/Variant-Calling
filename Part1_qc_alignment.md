@@ -63,7 +63,9 @@ zcat GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz | bgzip >GCA_000001405.1
 rm GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz
 # set a variable 'GEN' that gives the location of the reference genome:
 GEN=GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.gz
+module load bwa
 bwa index $GEN
+module load samtools
 samtools faidx $GEN
 ```
 
