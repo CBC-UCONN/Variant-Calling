@@ -17,14 +17,16 @@ date
 # load required software
 module load GATK/4.0
 
+OUTDIR=../variants_gatk
+
 # set a variable for the reference genome location
-GEN=/UCHC/PublicShare/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
+GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
 
 
 gatk GenotypeGVCFs \
     -R $GEN \
     -V gendb://../variants_genomicsdb \
-    -O ../variants_gatk/chinesetrio.vcf 
+    -O $OUTDIR/chinesetrio.vcf 
 
 
 date
