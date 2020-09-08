@@ -1,5 +1,5 @@
 #!/bin/bash 
-#SBATCH --job-name=gatk_gen
+#SBATCH --job-name=gatk_genotype
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 7

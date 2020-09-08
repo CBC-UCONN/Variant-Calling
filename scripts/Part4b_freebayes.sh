@@ -35,6 +35,7 @@ find ../align_pipe/ -name "*bam" >$OUTDIR/bam.list
 GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
 
 OUTLIERWINDOWS=../coverage_stats/coverage_outliers.bed.gz
+TARGETS=../coverage_stats/targets.bed
 
 # call freebayes
 	# coverage limits defined by looking at the distribution of per base coverage
@@ -45,7 +46,8 @@ freebayes \
 -m 30 \
 -q 20 \
 --min-coverage 110 \
---skip-coverage 330 | \
+--skip-coverage 330 \
+-t $TARGETS | \
 bgzip -c >$OUTDIR/chinesetrio_fb.vcf.gz
 
 

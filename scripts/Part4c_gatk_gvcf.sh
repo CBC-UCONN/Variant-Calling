@@ -1,5 +1,5 @@
 #!/bin/bash 
-#SBATCH --job-name=gatk_HC
+#SBATCH --job-name=gatk_gvcf
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 7
@@ -32,7 +32,7 @@ mkdir -p $OUTDIR
 # make a list of bam files
 ls $INDIR/*bam >$OUTDIR/bam.list
 
-TARGETS=../coverage_stats/targets.bed.gz
+TARGETS=../coverage_stats/targets.bed
 
 # set a variable for the reference genome location
 GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta

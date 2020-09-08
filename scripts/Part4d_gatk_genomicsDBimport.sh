@@ -1,5 +1,5 @@
 #!/bin/bash 
-#SBATCH --job-name=gatk_HC
+#SBATCH --job-name=gatk_DBimport
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 7
