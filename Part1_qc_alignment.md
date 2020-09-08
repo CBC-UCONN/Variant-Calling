@@ -166,7 +166,7 @@ Again, `*html` will indicate that `scp` should copy all files ending in ".html".
 INSERT FIGURES HERE? OR LEAVE THEM TO WORKSHOP? 
 ___
 scripts: 
-- [scripts/Part1b_fastqc.sh](scripts/Part1b_fastqc.sh)
+- [scripts/Part1b1_fastqc.sh](scripts/Part1b_fastqc.sh)
 
 ## Quality trim ##
 
