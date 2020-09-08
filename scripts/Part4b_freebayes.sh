@@ -36,12 +36,31 @@ GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detectio
 
 OUTLIERWINDOWS=../coverage_stats/coverage_outliers.bed.gz
 
-# note that bamtools region specification uses ".." instead of "-"
-bamtools merge -list $OUTDIR/bam.list -region chr20:29400000..34400000 | \
-bamtools filter -in stdin -mapQuality ">30" -isProperPair true | \
-bedtools intersect -v -a stdin -b $OUTLIERWINDOWS -nonamecheck | \
-freebayes -f $GEN --stdin | \
+# call freebayes
+	# coverage limits defined by looking at the distribution of per base coverage
+
+freebayes \
+-f $GEN \
+--bam-list $OUTDIR/bam.list \
+-m 30 \
+-q 20 \
+--min-coverage 110 \
+--skip-coverage 330 | \
 bgzip -c >$OUTDIR/chinesetrio_fb.vcf.gz
+
+
+# a more complicated but flexible approach to filtering out reads
+	# use bamtools to merge all reads into a single stream, filter on quality, then
+	# use bedtools to exclude reads overlapping outlier windows defined previously. 
+# bamtools merge -list $OUTDIR/bam.list -region chr20:29400000..34400000 | \
+# bamtools filter -in stdin -mapQuality ">30" -isProperPair true | \
+# bedtools intersect -v -a stdin -b $OUTLIERWINDOWS -nonamecheck | \
+# freebayes -f $GEN --stdin | \
+# bgzip -c >$OUTDIR/chinesetrio_fb.vcf.gz
+
+
+
+
 
 tabix -p vcf $OUTDIR/chinesetrio_fb.vcf.gz
 
