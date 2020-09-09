@@ -17,15 +17,14 @@ date
 module load bcftools/1.6
 module load htslib
 
-mkdir -p ../filtered_vcfs
+OUTDIR=../filtered_vcfs
+mkdir -p $OUTDIR
 
-cd ../filtered_vcfs
+bcftools filter -s LowQual -e '%QUAL<50' ../variants_freebayes/chinesetrio_fb.vcf.gz | bgzip -c > $OUTDIR/fb_filter.vcf.gz
+bcftools filter -s LowQual -e '%QUAL<50' ../variants_gatk/chinesetrio.vcf.gz | bgzip -c > $OUTDIR/gatk_filter.vcf.gz
+bcftools filter -s LowQual -e '%QUAL<50' ../variants_bcftools/chinesetrio.vcf.gz | bgzip -c > $OUTDIR/bcf_filter.vcf.gz
 
-bcftools filter -s LowQual -e '%QUAL<50' ../variants_freebayes/chinesetrio_fb.vcf.gz | bgzip -c > fb_filter.vcf.gz
-bcftools filter -s LowQual -e '%QUAL<50' ../variants_gatk/chinesetrio.vcf | bgzip -c > gatk_filter.vcf.gz
-bcftools filter -s LowQual -e '%QUAL<50' ../variants_bcftools/chinesetrio.vcf.gz | bgzip -c > bcf_filter.vcf.gz
-
-for file in *vcf.gz
+for file in $OUTDIR/*vcf.gz
 do tabix -f -p vcf $file
 done
 

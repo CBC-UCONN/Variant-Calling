@@ -28,5 +28,6 @@ gatk GenotypeGVCFs \
     -V gendb://../variants_genomicsdb \
     -O $OUTDIR/chinesetrio.vcf 
 
+bgzip $OUTDIR/chinesetrio.vcf 
 
 date

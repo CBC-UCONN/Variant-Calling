@@ -1,5 +1,5 @@
 #!/bin/bash 
-#SBATCH --job-name=deduplication
+#SBATCH --job-name=index_bams
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 1

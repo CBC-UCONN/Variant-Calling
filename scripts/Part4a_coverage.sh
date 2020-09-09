@@ -69,8 +69,7 @@ zcat $OUTDIR/coverage_1kb.bed.gz | awk '$6 < 850 || $6 > 2550' | bedtools merge 
 tabix -p bed $OUTDIR/coverage_outliers.bed.gz
 
 # select and merge target windows (inverse of "outlier windows" above)
-zcat $OUTDIR/coverage_1kb.bed.gz | awk '$6 > 850 && $6 < 2550' | bedtools merge | bgzip >$OUTDIR/targets.bed.gz 
-tabix -p bed $OUTDIR/targets.bed
+zcat $OUTDIR/coverage_1kb.bed.gz | awk '$6 > 850 && $6 < 2550' | bedtools merge >$OUTDIR/targets.bed 
 
 
 # calculate per-base coverage as well	
