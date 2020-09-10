@@ -1,5 +1,5 @@
 #!/bin/bash 
-#SBATCH --job-name=align
+#SBATCH --job-name=align_stepwise
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 12

@@ -1,5 +1,5 @@
 #!/bin/bash 
-#SBATCH --job-name=quality_control
+#SBATCH --job-name=fastqc
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 6

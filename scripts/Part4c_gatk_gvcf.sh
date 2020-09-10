@@ -12,7 +12,6 @@
 #SBATCH -e %x_%j.err
 
 
-
 hostname
 date
 

@@ -1,5 +1,5 @@
 #!/bin/bash 
-#SBATCH --job-name=index
+#SBATCH --job-name=index_pipe
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 1

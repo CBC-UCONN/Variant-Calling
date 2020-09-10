@@ -1,5 +1,5 @@
 #!/bin/bash 
-#SBATCH --job-name=variantcall
+#SBATCH --job-name=bcf_variantcall
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 1

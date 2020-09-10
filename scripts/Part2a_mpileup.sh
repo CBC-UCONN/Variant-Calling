@@ -1,5 +1,5 @@
 #!/bin/bash 
-#SBATCH --job-name=pileup
+#SBATCH --job-name=bcf_mpileup
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 1

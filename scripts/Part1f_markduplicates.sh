@@ -1,5 +1,5 @@
 #!/bin/bash 
-#SBATCH --job-name=markdups
+#SBATCH --job-name=mark_dups
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 1

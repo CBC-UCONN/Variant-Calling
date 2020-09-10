@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=sickle_run
+#SBATCH --job-name=trim_sickle
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 6

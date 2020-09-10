@@ -61,9 +61,6 @@ bgzip -c >$OUTDIR/chinesetrio_fb.vcf.gz
 # bgzip -c >$OUTDIR/chinesetrio_fb.vcf.gz
 
 
-
-
-
 tabix -p vcf $OUTDIR/chinesetrio_fb.vcf.gz
 
 date
