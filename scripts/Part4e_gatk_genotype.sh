@@ -29,5 +29,6 @@ gatk GenotypeGVCFs \
     -O $OUTDIR/chinesetrio.vcf 
 
 bgzip $OUTDIR/chinesetrio.vcf 
+tabix -p vcf $OUTDIR/chinesetrio.vcf.gz
 
 date
