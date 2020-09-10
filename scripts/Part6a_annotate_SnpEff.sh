@@ -29,6 +29,6 @@ VCF=../filtered_vcfs/fb_vap.vcf.gz
 # here -dataDir creates a directory where the hg38 database will be downloaded to
 # the default directory cannot be written to by users
 
-java -Xmx8G -jar $SNPEFF eff -dataDir ($pwd)/$OUTDIR/snpeff_data hg38 $VCF | bgzip -c >$OUTDIR/fb_filter.ann.vcf.gz
+java -Xmx8G -jar $SNPEFF eff -dataDir $(pwd)/$OUTDIR/snpeff_data hg38 $VCF | bgzip -c >$OUTDIR/fb_filter.ann.vcf.gz
 	
 
