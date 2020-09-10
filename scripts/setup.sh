@@ -15,7 +15,7 @@ jid9=$(sbatch --parsable --dependency=afterok:$jid8 Part2a_mpileup.sh )
 jid10=$(sbatch --parsable --dependency=afterok:$jid9 Part2b_variantcall.sh )
 jid11=$(sbatch --parsable --dependency=afterok:$jid10 Part2c_tabix.sh )
 
-jid12=$(sbatch --parsable --dependency=afterok:$jid11 Part3a_alignment.sh )
+jid12=$(sbatch --parsable --dependency=afterok:$jid2 Part3a_alignment.sh )
 jid13=$(sbatch --parsable --dependency=afterok:$jid12 Part3b_indexbams.sh )
 
 jid14=$(sbatch --parsable --dependency=afterok:$jid13 Part4a_coverage.sh )

@@ -49,5 +49,4 @@ samtools sort -n - | \
 bedtools bamtofastq -i /dev/stdin/ -fq $OUTDIR/dad.1.fq -fq2 $OUTDIR/dad.2.fq
 
 # get rid of bam indexes that were also downloaded
-rm $OUTDIR/*bai
-rm $OUTDIR/*bam.bai
+rm *bam.bai
