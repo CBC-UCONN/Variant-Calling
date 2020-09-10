@@ -20,24 +20,27 @@ module load GATK/4.1.3.0
 
 ### Annotating variants with dbSNP rsids. 
 
+# make a directory if it doesn't exist
+OUTDIR=../annotated_vcfs
+mkdir -p $OUTDIR
+
 # get the dbsnp set for chromosome 20
 	
 	# download only a section of chr20 from dbsnp
 	tabix -h ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606/VCF/00-All.vcf.gz 20:28000000-35000000 | \
 	sed 's/^20/chr20/' | \
-	bgzip -c >chr20.dbsnp.vcf.gz
-	tabix -p vcf chr20.dbsnp.vcf.gz
+	bgzip -c >$OUTDIR/chr20.dbsnp.vcf.gz
+	tabix -p vcf $OUTDIR/chr20.dbsnp.vcf.gz
 	# update the sequence dictionary
-	gatk UpdateVCFSequenceDictionary -V chr20.dbsnp.vcf.gz --source-dictionary ../align_pipe/son.bam --output chr20.dbsnp.contig.vcf.gz --replace=true
-	tabix -p vcf chr20.dbsnp.contig.vcf.gz
+	gatk UpdateVCFSequenceDictionary -V $OUTDIR/chr20.dbsnp.vcf.gz --source-dictionary ../align_pipe/son.bam --output $OUTDIR/chr20.dbsnp.contig.vcf.gz --replace=true
+	tabix -p vcf $OUTDIR/chr20.dbsnp.contig.vcf.gz
 	# remove intermediate files
 	rm chr20.dbsnp.vcf.gz*
 
 # annotate:
-tabix -p vcf fb_filter.ann.vcf.gz
 bcftools annotate -c ID \
 --output-type z \
--a chr20.dbsnp.contig.vcf.gz \
-fb_filter.ann.vcf.gz >fb_filter.ann.RSID.vcf.gz
+-a $OUTDIR/chr20.dbsnp.contig.vcf.gz \
+$OUTDIR/fb_filter.ann.vcf.gz >$OUTDIR/fb_filter.ann.RSID.vcf.gz
 
 

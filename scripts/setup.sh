@@ -25,8 +25,8 @@ jid16=$(sbatch --parsable --dependency=afterok:$jid13 Part4c_gatk_gvcf.sh )
 jid17=$(sbatch --parsable --dependency=afterok:$jid16 Part4d_gatk_genomicsDBimport.sh )
 jid18=$(sbatch --parsable --dependency=afterok:$jid17 Part4e_gatk_genotype.sh )
 
-# jid19=$(sbatch --parsable --dependency=afterok:$jid18 Part5a_filter.sh )
-# jid20=$(sbatch --parsable --dependency=afterok:$jid19 Part5b_compare.sh )
+jid19=$(sbatch --parsable --dependency=afterok:$jid18 Part5a_filter.sh )
+jid20=$(sbatch --parsable --dependency=afterok:$jid19 Part5b_compare.sh )
 
-# jid21=$(sbatch --parsable --dependency=afterok:$jid20 Part6a_annotate_SnpEff.sh )
-# jid22=$(sbatch --parsable --dependency=afterok:$jid21 Part6b_annotate_dbSNP.sh )
+jid21=$(sbatch --parsable --dependency=afterok:$jid20 Part6a_annotate_SnpEff.sh )
+jid22=$(sbatch --parsable --dependency=afterok:$jid21 Part6b_annotate_dbSNP.sh )
