@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=bcf_vcf
+#SBATCH --job-name=compare_vcfs
 #SBATCH -n 1
 #SBATCH -N 1
 #SBATCH -c 1
@@ -18,6 +18,8 @@ module load vt/0.57721
 module load bcftools/1.6
 module load htslib
 module load vcflib
+
+cd ../filtered_vcfs
 
 ##############################
 # check out filtering results:
