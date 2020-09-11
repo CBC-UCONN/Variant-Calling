@@ -33,7 +33,7 @@ mkdir -p $OUTDIR
 	tabix -p vcf $OUTDIR/chr20.dbsnp.vcf.gz
 	# update the sequence dictionary
 	gatk UpdateVCFSequenceDictionary -V $OUTDIR/chr20.dbsnp.vcf.gz --source-dictionary ../align_pipe/son.bam --output $OUTDIR/chr20.dbsnp.contig.vcf.gz --replace=true
-	tabix -p vcf $OUTDIR/chr20.dbsnp.contig.vcf.gz
+	tabix -p -f vcf $OUTDIR/chr20.dbsnp.contig.vcf.gz
 	# remove intermediate files
 	rm $OUTDIR/chr20.dbsnp.vcf.gz*
 
@@ -41,6 +41,6 @@ mkdir -p $OUTDIR
 bcftools annotate -c ID \
 --output-type z \
 -a $OUTDIR/chr20.dbsnp.contig.vcf.gz \
-$OUTDIR/fb_vap.ann.vcf.gz >$OUTDIR/fb_filter.ann.RSID.vcf.gz
+$OUTDIR/fb_vap.ann.vcf.gz >$OUTDIR/fb_vap.ann.RSID.vcf.gz
 
 
