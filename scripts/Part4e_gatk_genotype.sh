@@ -16,6 +16,7 @@ date
 
 # load required software
 module load GATK/4.0
+module load htslib/1.10.2
 
 OUTDIR=../variants_gatk
 

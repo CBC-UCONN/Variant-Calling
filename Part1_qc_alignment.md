@@ -41,41 +41,45 @@ This section of the tutorial covers the first phase of the reference mapping app
 
 ## Set up a working directory ##
 
-We will begin the tutorial by setting up a working directory to organize the files we'll generate. From your home directory, enter the code below on the command line to create a set of directories. 
+We've prepared this tutorial so that you can copy it from github and run the scripts. Each script will create or use existing directories to read and write data and results. To get the tutorial enter the following on the command line:
 
 ```bash
-mkdir -p vc_workshop/rawdata vc_workshop/fastqc vc_workshop/align_stepwise vc_workshop/scripts
-cd vc_workshop
+git clone https://github.com/CBC-UCONN/Variant-Calling.git
+cd Variant-Calling
 ```
-
 
 ## Prepare a reference genome
 
 The first step is the prepare the reference genome. Most software packages that align short-read sequencing data to, or otherwise manipulate a reference genome require that genome to be indexed in some way. We will generate indexes using both `bwa` and `samtools`. For the workshop, a pre-indexed human genome is provided, but the code below shows how you can download and index a human genome yourself:
 
 ```bash
-# make bgzip available
+# load software modules
 module load htslib
+module load bwa
+module load samtools
+
 # download a human genome, version as recommended by Heng Li: https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use
 wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz
+
 # compress the genome using bgzip
 zcat GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz | bgzip >GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.gz
 rm GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz
+
 # set a variable 'GEN' that gives the location of the reference genome:
 GEN=GCA_000001405.15_GRCh38_no_alt_analysis_set.fa.gz
-module load bwa
+
+# index the reference genome:
 bwa index $GEN
-module load samtools
 samtools faidx $GEN
 ```
 
-If you are working on this tutorial somewhere other than UConn's xanadu cluster, you can make a directory called "reference", place this genome there, and edit following scripts to point at that version of the genome. 
+If you are working on this tutorial somewhere other than UConn's xanadu cluster, you can make a directory called "reference", place this genome there, and edit subsequent scripts to point at that version of the genome. 
 
 ## Download data ##
 
 For all following steps of the workshop, we'll use data from the [Genome in a Bottle](https://www.nist.gov/programs-projects/genome-bottle) project, hosted by the [National Institute of Standards and Technology](https://www.nist.gov). The data were collected as part of an effort to create reference standards to compare genomic workflows. Large quantities of sequencing data have been generated on multiple platforms (Illumina, PacBio, etc) for seven individuals. 
 
-We're going to use data from a trio (mother, father, and son) of Chinese ancestry. The data consist of 250bp paired end reads sequenced on an Illumina HiSeq 2500. To ensure the analyses run quickly, we'll only use data from 5 megabases of chromosome 20 (position 29,400,000 to 34,400,000). The expected sequencing coverage is 100x for the mother and father, and 45x for the son. 
+We're going to use data from a trio (mother, father, and son) of Han Chinese ancestry. The data consist of 250bp paired end reads sequenced on an Illumina HiSeq 2500. To ensure the analyses run quickly, we'll only use data from 5 megabases of chromosome 20 (position 29,400,000 to 34,400,000). The expected sequencing coverage is 100x for the mother and father, and 45x for the son. 
 
 More information about the data can be found at the links below:  
 - https://www.nist.gov/programs-projects/genome-bottle
@@ -102,6 +106,9 @@ SON='ftp://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/data/ChineseTrio/HG005_NA24631_so
 # download the data, sort it, reformat to fastq
 samtools view -uh $SON chr20:29400000-34400000 | samtools sort -n - | bedtools bamtofastq -i /dev/stdin/ -fq son.1.fq -fq2 son.2.fq
 ```
+
+To download the data, go to the `scripts` directory and enter `sbatch Part1a_datadownload.sh` on the command line. 
+
 ___
 scripts:
 - [scripts/Part1a_datadownload.sh](scripts/Part1a_datadownload.sh)
@@ -156,6 +163,8 @@ fastqc -t 4 -o ../fastqc ../rawdata/*fq
 
 The `*fq` indicates that fastqc should run on all files ending in "fq" in directory `rawdata/`. 
 
+Execute this script from the `scripts` directory by entering `sbatch Part1b1_fastqc.sh` on the command line. 
+
 Once the files are generated you'll have to transfer them to your local computer to open them and examine the results. To copy the file from the Xanadu cluster please use the `transfer.cam.uchc.edu` node.  
 
 You can use an ftp program, or the unix utility `scp` as:
@@ -165,14 +174,13 @@ scp user_name@transfer.cam.uchc.edu:/FULL_PATH_to_FILES/*.html .
 
 Again, `*html` will indicate that `scp` should copy all files ending in ".html". Once the files are downloaded, you can open them in a web browser. 
 
-INSERT FIGURES HERE? OR LEAVE THEM TO WORKSHOP? 
 ___
 scripts: 
 - [scripts/Part1b1_fastqc.sh](scripts/Part1b1_fastqc.sh)
 
 ## Quality trim ##
 
-Current variant callers account for uncertainties in mapping (conditional on the quality of the reference genome) and in base calling, so quality trimming is not generally necessary for this application (the worrisome sources of error in variant calling are ["unknown unknowns"](https://en.wikipedia.org/wiki/There_are_known_knowns), like the incompleteness of the reference genome, or systematic error arising from library prep). However, if you have a dataset plagued by adapter contamination or poor quality reads, you may want to try trimming to salvage it and/or remove some of the noise. 
+Quality trimming is a step in which low quality bases and/or adapter contamination is removed from reads. Current variant callers account for uncertainties in mapping (conditional on the quality of the reference genome) and in base calling, so quality trimming is not always necessary for this application (the worrisome sources of error in variant calling are ["unknown unknowns"](https://en.wikipedia.org/wiki/There_are_known_knowns), like the incompleteness of the reference genome, or systematic error arising from library prep). However, if you have a dataset plagued by adapter contamination or poor quality reads, you may want to try trimming to salvage it and/or remove some of the noise. 
 
 `sickle` is a commonly used tool for this task. 
 
@@ -189,9 +197,9 @@ sickle pe -t sanger \
 	-s ../rawdata/$SEQ.trim.0.fq
 ```
 
-This would discard any read trimmed shorter than 100bp, and if its pair was longer than 100bp, it would be placed in the file given by `-s`, which would be read as `../rawdata/son.trim.0.fq`. 
+This would discard any read trimmed shorter than 100bp, and if its pair was longer than 100bp, it would be placed in the file given by `-s ../rawdata/son.trim.0.fq`. 
 
-We can run our script, which also runs `FastQC` on the trimmed data, but as we will see, it will have little impact for this particular dataset. The next steps will use the untrimmed data. 
+We can run our script, which also runs `FastQC` on the trimmed data, but as we will see, it will have little impact for this particular dataset. From the `scripts` directory enter `sbatch Part1b2_sickle_fastqc.sh` on the command line. 
 ___
 scripts:	
 - [scripts/Part1b2_sickle_fastqc.sh](scripts/Part1b2_sickle_fastqc.sh)    
@@ -219,7 +227,10 @@ Finally, we'll compress the resulting alignment file:
 samtools view -bhS ../rawdata/son.sam >../align_stepwise/son.bam
 ```
 
+Execute these scripts from the `scripts` directory by entering `sbatch Part1c_align.sh` on the command line, and when that finishes, `sbatch Part1d_compress.sh`. 
+
 Because we're doing all steps individually, you will note that at this point (if we've done the quality trimming) we now have 4 copies of our sequence data. 
+
 ___
 scripts:	
 - [scripts/Part1c_align.sh](scripts/Part1c_align.sh)    
@@ -227,7 +238,7 @@ scripts:
 
 ## Sort reads by genome position ##
 
-To call variants at a given position in the reference genome, we need to look at all the reads that overlap that position. In order to do this efficiently, we need to sort the reads in the alignment files by their positions in the reference genome. We'll use `picard tools` for this. For example:
+To call variants at a given position in the reference genome, we need to look at all the reads that overlap that position. In order to do this efficiently, we need to sort the reads in the alignment files by their positions in the reference genome. We'll use `Picard Tools` for this. For example:
 
 ```bash
 IN=../align_stepwise/son.bam
@@ -238,6 +249,8 @@ java -jar $PICARD SortSam \
         SORT_ORDER=coordinate \
         CREATE_INDEX=True
 ```
+
+From the `scripts` directory, enter `sbatch Part1e_sort.sh` on the command line. 
 
 scripts:	
 - [scripts/Part1e_sort.sh](scripts/Part1e_sort.sh)
@@ -267,6 +280,8 @@ java -jar $PICARD MarkDuplicates \
 
 In this example, duplicate sequences remain in the file, but they are flagged as such. 
 
+Execute the script from the `scripts` directory by entering `sbatch Part1f_markduplicates.sh` on the command line. 
+
 ___
 
 scripts:
@@ -281,6 +296,8 @@ samtools index ../align_stepwise/*mkdup.bam
 ```
 
 Now we have completed the initial QC, alignment and processing steps. At this point, you may have noticed that we have accumulated six copies of our data. Two copies of the fastq files, and four copies of the alignment files. This is a large and space-wasting mess. If we were working with many samples of high coverage human genomes, we would want to go and delete the intermediate alignment files and the trimmed fastqs, keeping only the original fastqs and the analysis-ready bams. Another approach, detailed in [Part 3](Part3_pipedalignment.md), would pipe many of these steps together and avoid creating some of the intermediate files to begin with. 
+
+Execute the indexing script from the `scripts` directory by entering `Part1g_indexbams.sh` on the command line. 
 
 ___
 
