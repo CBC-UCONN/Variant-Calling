@@ -30,10 +30,10 @@ mkdir -p $OUTDIR
 	tabix -h ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606/VCF/00-All.vcf.gz 20:28000000-35000000 | \
 	sed 's/^20/chr20/' | \
 	bgzip -c >$OUTDIR/chr20.dbsnp.vcf.gz
-	tabix -p vcf $OUTDIR/chr20.dbsnp.vcf.gz
+	tabix -p vcf -f $OUTDIR/chr20.dbsnp.vcf.gz
 	# update the sequence dictionary
 	gatk UpdateVCFSequenceDictionary -V $OUTDIR/chr20.dbsnp.vcf.gz --source-dictionary ../align_pipe/son.bam --output $OUTDIR/chr20.dbsnp.contig.vcf.gz --replace=true
-	tabix -p -f vcf $OUTDIR/chr20.dbsnp.contig.vcf.gz
+	tabix -p vcf -f $OUTDIR/chr20.dbsnp.contig.vcf.gz
 	# remove intermediate files
 	rm $OUTDIR/chr20.dbsnp.vcf.gz*
 
