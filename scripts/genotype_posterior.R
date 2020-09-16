@@ -35,7 +35,9 @@ plg <- function(gg,ll,kk,ee,pp){
 
 }
 
-
+# calculate posterior probability of all three genotypes
+# for site coverage n
+# for number of alternate alleles from 0:n
 n <- 15
 posteriors <- c()
 for(i in 0:n){
@@ -46,11 +48,12 @@ for(i in 0:n){
 
 }
 
+# plot genotype posteriors as a function of number of alternate alleles for sample size n
 plot(0:n,posteriors[,1],type="b",lwd=2,lty=3,xlab="# alt alleles",ylab="probability of genotype")
 lines(0:n,posteriors[,2],type="b",lwd=2,lty=3,col="gray")
 lines(0:n,posteriors[,3],type="b",lwd=2,lty=3,col="blue")
 
-
+# probability distribution of alternate alleles for a heterozygous site with coverage n
 rbinom(n=1000,prob=0.5,size=15) %>% table() %>% plot()
 
 (dbinom(x=0:n,size=15,prob=0.5)*1000) %>% points(x=0:n,y=.)
