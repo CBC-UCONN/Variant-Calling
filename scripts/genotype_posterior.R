@@ -4,16 +4,30 @@
 # given read data
 library(tidyverse)
 
-# likelihood function from Li 2011
+# likelihood function for biallelic variation modified from Li 2011 to have a single error rate and ploidy = 2
+	# g - genotype in number of alternate alleles (e.g. 0,1,2)
+	# l - # reference alleles
+	# k - total number of alleles sampled, a.k.a coverage of the site (e.g. # alt alleles = k - l )
+	# e - base call error rate, e.g. 0.01 (Q20), 0.001 (Q30)...
+
+	# returns the probability of the data given g and e. 
 lg <- function(g,l,k,e){
 	(((2-g)*e + g*(1-e))^l*((2-g)*(1-e) + g*e)^(k-l))/(2^k)
 }
 
-# prior based on expected AFS for a single sample
+# prior probability distribution based on expected AFS for a single sample
+	# p = theta, or expected number of pairwise differences
+	# in humans this is 0.001, in drosophila it's more like 0.01
 prio <- function(p){
 	c((1 - (p + p/2)),p,p/2)
 }
 
+# posterior probability of genotype given data, prior and error rate
+	# gg = g from lg
+	# ll = l from lg
+	# kk = k from lg
+	# ee = e from lg
+	# pp = p from prio
 plg <- function(gg,ll,kk,ee,pp){
 
 	lg(gg,ll,kk,ee)*prio(pp)/sum(lg(gg,ll,kk,ee)*prio(pp))
