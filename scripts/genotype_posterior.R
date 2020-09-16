@@ -4,7 +4,8 @@
 # given read data
 library(tidyverse)
 
-# likelihood function for biallelic variation modified from Li 2011 to have a single error rate and ploidy = 2
+# likelihood function for biallelic variation modified from equation 2 in Li 2011 
+# to have a single error rate for all bases and ploidy = 2
 	# g - genotype in number of alternate alleles (e.g. 0,1,2)
 	# l - # reference alleles
 	# k - total number of alleles sampled, a.k.a coverage of the site (e.g. # alt alleles = k - l )
