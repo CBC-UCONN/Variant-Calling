@@ -33,21 +33,21 @@ GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detectio
 bwa mem -t 7 -R '@RG\tID:son\tSM:son' $GEN $INDIR/son.1.fq $INDIR/son.2.fq | \
 samblaster | \
 samtools view -S -h -u - | \
-samtools sort -T /scratch/son - >$OUTDIR/son.bam
+samtools sort -T /scratch/$USER - >$OUTDIR/son.bam
 date
 
 # execute the pipe for the mom:
 bwa mem -t 7 -R '@RG\tID:mom\tSM:mom' $GEN $INDIR/mom.1.fq $INDIR/mom.2.fq | \
 samblaster | \
 samtools view -S -h -u - | \
-samtools sort -T /scratch/mom - >$OUTDIR/mom.bam
+samtools sort -T /scratch/$USER - >$OUTDIR/mom.bam
 date
 
 # execute the pipe for the dad:
 bwa mem -t 7 -R '@RG\tID:dad\tSM:dad' $GEN $INDIR/dad.1.fq $INDIR/dad.2.fq | \
 samblaster | \
 samtools view -S -h -u - | \
-samtools sort -T /scratch/dad - >$OUTDIR/dad.bam
+samtools sort -T /scratch/$USER - >$OUTDIR/dad.bam
 date
 
 

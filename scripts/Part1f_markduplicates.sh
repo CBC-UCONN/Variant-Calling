@@ -15,7 +15,7 @@ hostname
 date
 
 module load picard/2.9.2
-export _JAVA_OPTIONS=-Djava.io.tmpdir=/scratch
+export _JAVA_OPTIONS=-Djava.io.tmpdir=/scratch/$USER
 
 # son
 IN=../align_stepwise/son.sort.bam
