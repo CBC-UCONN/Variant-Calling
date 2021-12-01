@@ -15,10 +15,10 @@ hostname
 date
 
 # load software
-module load samtools
+module load samtools/1.12
 
 # set directory for input and output files
-DIR=../align_stepwise
+DIR=../results/align_stepwise
 
 # son
 samtools view -bhS $DIR/son.sam >$DIR/son.bam

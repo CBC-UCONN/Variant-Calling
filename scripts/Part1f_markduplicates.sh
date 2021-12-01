@@ -18,8 +18,8 @@ module load picard/2.9.2
 export _JAVA_OPTIONS=-Djava.io.tmpdir=/scratch/$USER
 
 # son
-IN=../align_stepwise/son.sort.bam
-OUT=../align_stepwise/son.mkdup.bam
+IN=../results/align_stepwise/son.sort.bam
+OUT=../results/align_stepwise/son.mkdup.bam
 
 java -jar $PICARD MarkDuplicates \
         INPUT=$IN \
@@ -29,8 +29,8 @@ java -jar $PICARD MarkDuplicates \
         CREATE_INDEX=True
 
 # mom
-IN=../align_stepwise/mom.sort.bam
-OUT=../align_stepwise/mom.mkdup.bam
+IN=../results/align_stepwise/mom.sort.bam
+OUT=../results/align_stepwise/mom.mkdup.bam
 
 java -jar $PICARD MarkDuplicates \
         INPUT=$IN \
@@ -40,8 +40,8 @@ java -jar $PICARD MarkDuplicates \
         CREATE_INDEX=True
 
 # dad
-IN=../align_stepwise/dad.sort.bam
-OUT=../align_stepwise/dad.mkdup.bam
+IN=../results/align_stepwise/dad.sort.bam
+OUT=../results/align_stepwise/dad.mkdup.bam
 
 java -jar $PICARD MarkDuplicates \
         INPUT=$IN \

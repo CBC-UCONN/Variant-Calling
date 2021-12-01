@@ -18,49 +18,39 @@ date
 
 # load required software
 
-module load bedtools
-module load bamtools
-module load htslib
-module load freebayes
+module load bedtools/2.29.0
+module load bamtools/2.5.1
+module load htslib/1.12
+module load freebayes/1.3.4
 
 
 # make a directory for results if it doesn't exist
-OUTDIR=../variants_freebayes
+OUTDIR=../results/variants_freebayes
 mkdir -p $OUTDIR 
 
 # make a list of bam files
-find ../align_pipe/ -name "*bam" >$OUTDIR/bam.list
+find ../results/align_pipe/ -name "*bam" >$OUTDIR/bam.list
 
 # set a variable for the reference genome location
 GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
 
-OUTLIERWINDOWS=../coverage_stats/coverage_outliers.bed.gz
-TARGETS=../coverage_stats/targets.bed
+OUTLIERWINDOWS=../results/coverage_stats/coverage_outliers.bed.gz
+TARGETS=../results/coverage_stats/targets.bed
 
 # call freebayes
-	# coverage limits defined by looking at the distribution of per base coverage
+	# coverage limits could also be defined by looking at the distribution of per base coverage and setting thresholds, e.g.:
+	# --min-coverage 110 \
+	# --skip-coverage 330 \
 
 freebayes \
 -f $GEN \
 --bam-list $OUTDIR/bam.list \
 -m 30 \
 -q 20 \
---min-coverage 110 \
---skip-coverage 330 \
 -t $TARGETS | \
-bgzip -c >$OUTDIR/chinesetrio_fb.vcf.gz
+bgzip -c >$OUTDIR/ashtrio_fb.vcf.gz
 
 
-# a more complicated but flexible approach to filtering out reads
-	# use bamtools to merge all reads into a single stream, filter on quality, then
-	# use bedtools to exclude reads overlapping outlier windows defined previously. 
-# bamtools merge -list $OUTDIR/bam.list -region chr20:29400000..34400000 | \
-# bamtools filter -in stdin -mapQuality ">30" -isProperPair true | \
-# bedtools intersect -v -a stdin -b $OUTLIERWINDOWS -nonamecheck | \
-# freebayes -f $GEN --stdin | \
-# bgzip -c >$OUTDIR/chinesetrio_fb.vcf.gz
-
-
-tabix -p vcf $OUTDIR/chinesetrio_fb.vcf.gz
+tabix -p vcf $OUTDIR/ashtrio_fb.vcf.gz
 
 date

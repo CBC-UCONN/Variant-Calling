@@ -14,11 +14,11 @@
 hostname
 date
 
-module load bcftools
+module load bcftools/1.12
 
-INDIR=../align_stepwise
+INDIR=../results/align_stepwise
 # make output directory if it doesn't exist. 
-OUTDIR=../variants_bcftools
+OUTDIR=../results/variants_bcftools
 mkdir -p $OUTDIR
 
 
@@ -33,6 +33,6 @@ bcftools mpileup \
 	-b $INDIR/list.bam \
 	-q 20 \
 	-Q 30 \
-	-r chr20:29400000-34400000 >$OUTDIR/chinesetrio.pileup
+	-r chr20:29400000-34400000 >$OUTDIR/ashtrio.pileup
 date
 

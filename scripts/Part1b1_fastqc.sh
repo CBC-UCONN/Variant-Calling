@@ -19,8 +19,9 @@ date
 module load fastqc
 
 # create output directory
-OUTDIR=../fastqc
+OUTDIR=../results/fastqc
 mkdir -p $OUTDIR
 
-# run fastqc. "*fq" tells it to run on all fastq files in directory "../rawdata/"
-fastqc -t 6 -o $OUTDIR ../rawdata/*fq
+# run fastqc. "*fq" tells it to run on the illumina fastq files in directory "../rawdata/"
+fastqc -t 6 -o $OUTDIR ../rawdata/*1.fq.gz
+fastqc -t 6 -o $OUTDIR ../rawdata/*2.fq.gz

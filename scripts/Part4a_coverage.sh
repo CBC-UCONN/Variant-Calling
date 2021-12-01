@@ -18,15 +18,16 @@ date
 
 # load required software
 
-module load bedtools
-module load bamtools
-module load htslib
-module load samtools
+module load bedtools/2.29.0
+module load bamtools/2.5.1
+module load htslib/1.12
+module load samtools/1.12
 
 # define and/or create input, output directories
 
-INDIR=../align_pipe
-OUTDIR=../coverage_stats
+INDIR=../results/align_pipe
+
+OUTDIR=../results/coverage_stats
 mkdir -p $OUTDIR
 
 # genome index file from samtools faidx
@@ -65,11 +66,11 @@ bgzip >$OUTDIR/coverage_1kb.bed.gz
 tabix -p bed $OUTDIR/coverage_1kb.bed.gz
 
 # select and merge outlier windows (after deciding what is an outlier by looking at the distribution in R)
-zcat $OUTDIR/coverage_1kb.bed.gz | awk '$6 < 850 || $6 > 2550' | bedtools merge | bgzip >$OUTDIR/coverage_outliers.bed.gz 
+zcat $OUTDIR/coverage_1kb.bed.gz | awk '$6 < 700 || $6 > 1200' | bedtools merge | bgzip >$OUTDIR/coverage_outliers.bed.gz 
 tabix -p bed $OUTDIR/coverage_outliers.bed.gz
 
 # select and merge target windows (inverse of "outlier windows" above)
-zcat $OUTDIR/coverage_1kb.bed.gz | awk '$6 > 850 && $6 < 2550' | bedtools merge >$OUTDIR/targets.bed 
+zcat $OUTDIR/coverage_1kb.bed.gz | awk '$6 > 700 && $6 < 1200' | bedtools merge >$OUTDIR/targets.bed 
 
 
 # calculate per-base coverage as well	

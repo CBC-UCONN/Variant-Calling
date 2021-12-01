@@ -18,8 +18,8 @@ module load picard/2.9.2
 export _JAVA_OPTIONS=-Djava.io.tmpdir=/scratch/$USER
 
 # son
-IN=../align_stepwise/son.bam
-OUT=../align_stepwise/son.sort.bam
+IN=../results/align_stepwise/son.bam
+OUT=../results/align_stepwise/son.sort.bam
 java -jar $PICARD SortSam \
         INPUT=$IN \
         OUTPUT=$OUT \
@@ -27,8 +27,8 @@ java -jar $PICARD SortSam \
         CREATE_INDEX=True
 
 # mom
-IN=../align_stepwise/mom.bam
-OUT=../align_stepwise/mom.sort.bam
+IN=../results/align_stepwise/mom.bam
+OUT=../results/align_stepwise/mom.sort.bam
 java -jar $PICARD SortSam \
         INPUT=$IN \
         OUTPUT=$OUT \
@@ -36,8 +36,8 @@ java -jar $PICARD SortSam \
         CREATE_INDEX=True
 
 # dad
-IN=../align_stepwise/dad.bam
-OUT=../align_stepwise/dad.sort.bam
+IN=../results/align_stepwise/dad.bam
+OUT=../results/align_stepwise/dad.sort.bam
 java -jar $PICARD SortSam \
         INPUT=$IN \
         OUTPUT=$OUT \

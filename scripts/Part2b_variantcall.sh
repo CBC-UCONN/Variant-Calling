@@ -14,10 +14,10 @@
 hostname
 date
 
-module load bcftools
+module load bcftools/1.12
 
-INDIR=../variants_bcftools
+INDIR=../results/variants_bcftools
 
-bcftools call -m -v -Oz -o $INDIR/chinesetrio.vcf.gz $INDIR/chinesetrio.pileup
+bcftools call -m -v -Oz -o $INDIR/ashtrio.vcf.gz $INDIR/ashtrio.pileup
 
 date

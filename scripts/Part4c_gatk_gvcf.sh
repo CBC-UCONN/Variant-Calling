@@ -20,18 +20,18 @@ date
 # load required software
 
 module load GATK/4.0
-module load htslib
-module load bedtools
+module load htslib/1.12
+module load bedtools/2.29.0
 
-INDIR=../align_pipe
+INDIR=../results/align_pipe
 
-OUTDIR=../variants_gatk
+OUTDIR=../results/variants_gatk
 mkdir -p $OUTDIR
 
 # make a list of bam files
 ls $INDIR/*bam >$OUTDIR/bam.list
 
-TARGETS=../coverage_stats/targets.bed
+TARGETS=../results/coverage_stats/targets.bed
 
 # set a variable for the reference genome location
 GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta

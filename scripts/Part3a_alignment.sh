@@ -15,36 +15,36 @@ hostname
 date
 
 # load required software
-module load samtools
-module load samblaster
+module load samtools/1.12
+module load samblaster/0.1.24
 module load bwa/0.7.17
 
 # raw data directory
-INDIR=../rawdata
+INDIR=../results/trimmed
 
 # specify and create output directory
-OUTDIR=../align_pipe
+OUTDIR=../results/align_pipe
 mkdir -p $OUTDIR
 
 # set a variable 'GEN' that gives the location and base name of the reference genome:
 GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38
 
 # execute the pipe for the son:
-bwa mem -t 7 -R '@RG\tID:son\tSM:son' $GEN $INDIR/son.1.fq $INDIR/son.2.fq | \
+bwa mem -t 7 -R '@RG\tID:son\tSM:son' $GEN $INDIR/son.trim.1.fq $INDIR/son.trim.2.fq | \
 samblaster | \
 samtools view -S -h -u - | \
 samtools sort -T /scratch/$USER - >$OUTDIR/son.bam
 date
 
 # execute the pipe for the mom:
-bwa mem -t 7 -R '@RG\tID:mom\tSM:mom' $GEN $INDIR/mom.1.fq $INDIR/mom.2.fq | \
+bwa mem -t 7 -R '@RG\tID:mom\tSM:mom' $GEN $INDIR/mom.trim.1.fq $INDIR/mom.trim.2.fq | \
 samblaster | \
 samtools view -S -h -u - | \
 samtools sort -T /scratch/$USER - >$OUTDIR/mom.bam
 date
 
 # execute the pipe for the dad:
-bwa mem -t 7 -R '@RG\tID:dad\tSM:dad' $GEN $INDIR/dad.1.fq $INDIR/dad.2.fq | \
+bwa mem -t 7 -R '@RG\tID:dad\tSM:dad' $GEN $INDIR/dad.trim.1.fq $INDIR/dad.trim.2.fq | \
 samblaster | \
 samtools view -S -h -u - | \
 samtools sort -T /scratch/$USER - >$OUTDIR/dad.bam

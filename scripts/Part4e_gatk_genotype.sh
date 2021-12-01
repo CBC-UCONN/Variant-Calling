@@ -16,20 +16,19 @@ date
 
 # load required software
 module load GATK/4.0
-module load htslib/1.10.2
+module load htslib/1.12
 
-OUTDIR=../variants_gatk
+OUTDIR=../results/variants_gatk
 
 # set a variable for the reference genome location
 GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
 
-
 gatk GenotypeGVCFs \
     -R $GEN \
-    -V gendb://../variants_genomicsdb \
-    -O $OUTDIR/chinesetrio.vcf 
+    -V gendb://../results/variants_genomicsdb \
+    -O $OUTDIR/ashtrio.vcf 
 
-bgzip $OUTDIR/chinesetrio.vcf 
-tabix -p vcf $OUTDIR/chinesetrio.vcf.gz
+bgzip $OUTDIR/ashtrio.vcf 
+tabix -p vcf $OUTDIR/ashtrio.vcf.gz
 
 date

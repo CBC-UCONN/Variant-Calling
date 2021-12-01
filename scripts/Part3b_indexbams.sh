@@ -14,9 +14,9 @@
 hostname
 date
 
-module load samtools
+module load samtools/1.12
 
 # "*mkdup.bam" will refer to each of the 
-for file in ../align_pipe/*bam
+for file in ../results/align_pipe/*bam
 	do samtools index $file
 done

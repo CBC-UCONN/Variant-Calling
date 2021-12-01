@@ -14,11 +14,12 @@
 hostname
 date
 
-module load htslib
+module load htslib/1.12
 
 # set input directory
-INDIR=../variants_bcftools
+INDIR=../results/variants_bcftools
 
-tabix -p vcf $INDIR/chinesetrio.vcf.gz
+tabix -p vcf $INDIR/ashtrio.vcf.gz
+.vcf.gz
 
 date
