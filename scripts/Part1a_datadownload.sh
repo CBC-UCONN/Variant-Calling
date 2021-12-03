@@ -18,13 +18,14 @@ date
 # load software
 module load samtools/1.12 
 module load bedtools/2.29.0
+module load bioawk/1.0
 
 # script assumes it is run in directory vc_workshop/scripts
 
 OUTDIR=../rawdata/
 mkdir -p $OUTDIR
 
-# download a subregion of chinese GIAB trio: chr20:29400000-34400000
+# download a subregion of ashkenazim GIAB trio: chr20:29400000-34400000
 # sort reads by name, convert to fastq. 
 # two types of data: 1) illumina 2x250bp paired end reads, 2) oxford nanopore long reads
 # there will be lots of errors from bedtools resulting from discordant PE reads. 
