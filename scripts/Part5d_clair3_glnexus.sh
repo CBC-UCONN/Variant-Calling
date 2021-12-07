@@ -5,7 +5,7 @@
 #SBATCH -c 10
 #SBATCH --mem=50G
 #SBATCH --qos=general
-#SBATCH --partition=general
+#SBATCH --partition=xeon
 #SBATCH --mail-user=
 #SBATCH --mail-type=END
 #SBATCH -o %x_%j.out
@@ -25,7 +25,6 @@ INDIR=../results/variants_clair3_gvcf
 
 OUTDIR=../results/variants_clair3_joint
 mkdir -p $OUTDIR
-rm -r $OUTDIR/scratch
 
 # tell singularity where to write tmp files
 export TMPDIR=/scratch/$USER

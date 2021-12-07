@@ -15,21 +15,21 @@ hostname
 date
 
 module load vt/0.57721
-module load bcftools/1.6
-module load htslib
-module load vcflib
+module load bcftools/1.12
+module load htslib/1.12
+module load vcflib/1.0.0-rc1
 
-cd ../filtered_vcfs
+cd ../results/filtered_vcfs
 
 ##############################
 # check out filtering results:
 ##############################
 
 # use VT peek
-vt peek fb_filter.vcf.gz
-vt peek -f PASS fb_filter.vcf.gz
-vt peek -f PASS gatk_filter.vcf.gz
-vt peek -f PASS bcf_filter.vcf.gz
+vt peek fb_ill_filter.vcf.gz
+vt peek -f PASS fb_ill_filter.vcf.gz
+vt peek -f PASS gatk_ill_filter.vcf.gz
+vt peek -f PASS bcf_ill_filter.vcf.gz
 
 # use VT profile_mendelian
 # first create a pedigree file:
@@ -37,9 +37,9 @@ echo giabct	son	dad	mom	1 -9 >ct.ped
 echo giabct	son	0	0	1 -9 >>ct.ped
 echo giabct	son	0	0	1 -9 >>ct.ped
 
-vt profile_mendelian -f PASS -p ct.ped fb_filter.vcf.gz
-vt profile_mendelian -f PASS -p ct.ped gatk_filter.vcf.gz
-vt profile_mendelian -f PASS -p ct.ped bcf_filter.vcf.gz
+vt profile_mendelian -f PASS -p ct.ped fb_ill_filter.vcf.gz
+vt profile_mendelian -f PASS -p ct.ped gatk_ill_filter.vcf.gz
+vt profile_mendelian -f PASS -p ct.ped bcf_ill_filter.vcf.gz
 
 ##############################
 # compare variant sets

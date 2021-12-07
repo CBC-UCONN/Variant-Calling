@@ -14,6 +14,7 @@
 hostname
 date
 
+module load htslib/1.12
 source ~/.bashrc
 conda activate clair3
 
@@ -43,6 +44,7 @@ run_clair3.sh \
   --sample_name=$SAM
 
 cp $OUTDIR/$SAM/merge_output.gvcf.gz $OUTDIR/$SAM.g.vcf.gz
+tabix -p vcf $OUTDIR/$SAM.g.vcf.gz
 
 # mom
 SAM=mom
@@ -57,6 +59,7 @@ run_clair3.sh \
   --sample_name=$SAM
 
 cp $OUTDIR/$SAM/merge_output.gvcf.gz $OUTDIR/$SAM.g.vcf.gz
+tabix -p vcf $OUTDIR/$SAM.g.vcf.gz
 
 # dad
 SAM=dad
@@ -71,7 +74,9 @@ run_clair3.sh \
   --sample_name=$SAM
 
 cp $OUTDIR/$SAM/merge_output.gvcf.gz $OUTDIR/$SAM.g.vcf.gz
+tabix -p vcf $OUTDIR/$SAM.g.vcf.gz
 
+date
 
 
 

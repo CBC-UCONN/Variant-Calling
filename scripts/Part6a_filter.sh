@@ -14,25 +14,34 @@
 hostname
 date
 
-module load bcftools/1.6
-module load htslib
+module load bcftools/1.12
+module load htslib/1.12
 module load bedtools/2.29.0
 
-OUTDIR=../filtered_vcfs
+OUTDIR=../results/filtered_vcfs
 mkdir -p $OUTDIR
 
-TARGETS=../coverage_stats/targets.bed
+TARGETS=../results/coverage_stats/targets.bed
 
-# using a subset (chr20:31500000-34400000) for further analysis b/c mom/dad and son bam files on the giab ftp site are on different reference genomes, so there is a bunch of missing data. 
+# using a subset (chr20:31500000-34400000) which excludes the most problematic areas
 
-bcftools view -r chr20:31500000-34400000 ../variants_freebayes/chinesetrio_fb.vcf.gz | bcftools filter -s LowQual -e '%QUAL<50' | bgzip -c > $OUTDIR/fb_filter.vcf.gz
-bcftools view -r chr20:31500000-34400000 ../variants_gatk/chinesetrio.vcf.gz | bcftools filter -s LowQual -e '%QUAL<50' | bgzip -c > $OUTDIR/gatk_filter.vcf.gz
+# jointly called variants for illumina data -------------------------
+
+bcftools view -r chr20:31500000-34400000 ../results/variants_freebayes/ashtrio_fb.vcf.gz | bcftools filter -s LowQual -e '%QUAL<50' | bgzip -c > $OUTDIR/fb_ill_filter.vcf.gz
+bcftools view -r chr20:31500000-34400000 ../results/variants_gatk/ashtrio.vcf.gz | bcftools filter -s LowQual -e '%QUAL<50' | bgzip -c > $OUTDIR/gatk_ill_filter.vcf.gz
 # additionally filter bcftools output to match targets used for gatk and freebayes
-bcftools view -r chr20:31500000-34400000 ../variants_bcftools/chinesetrio.vcf.gz | bcftools filter -s LowQual -e '%QUAL<50' | bedtools intersect -header -wa -a stdin -b $TARGETS | bgzip -c > $OUTDIR/bcf_filter.vcf.gz
+bcftools view -r chr20:31500000-34400000 ../results/variants_bcftools/ashtrio.vcf.gz | bcftools filter -s LowQual -e '%QUAL<50' | bedtools intersect -header -wa -a stdin -b $TARGETS | bgzip -c > $OUTDIR/bcf_ill_filter.vcf.gz
+
+# son only to compare long reads against short reads for a single sample -------------------------
+
+bcftools view -r chr20:31500000-34400000 ../results/variants_clair3_gvcf/son/merge_output.vcf.gz | bedtools intersect -header -wa -a stdin -b $TARGETS | bgzip -c > $OUTDIR/clair3_son_ont_filter.vcf.gz
+
+bcftools view -r chr20:31500000-34400000 ../results/variants_pepper/son/son.vcf.gz | bedtools intersect -header -wa -a stdin -b $TARGETS | bgzip -c > $OUTDIR/pepper_son_ont_filter.vcf.gz
+
+bcftools view -r chr20:31500000-34400000 ../results/variants_gatk/son.vcf.gz | bcftools filter -s LowQual -e '%QUAL<50' | bedtools intersect -header -wa -a stdin -b $TARGETS | bgzip -c > $OUTDIR/gatk_son_ont_filter.vcf.gz
+
+# index vcfs -------------------
 
 for file in $OUTDIR/*vcf.gz
 do tabix -f -p vcf $file
 done
-
-
-
