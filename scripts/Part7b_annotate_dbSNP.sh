@@ -21,7 +21,7 @@ module load GATK/4.1.3.0
 ### Annotating variants with dbSNP rsids. 
 
 # make a directory if it doesn't exist
-OUTDIR=../annotated_vcfs
+OUTDIR=../results/annotated_vcfs
 mkdir -p $OUTDIR
 
 # get the dbsnp set for chromosome 20
@@ -32,7 +32,7 @@ mkdir -p $OUTDIR
 	bgzip -c >$OUTDIR/chr20.dbsnp.vcf.gz
 	tabix -p vcf -f $OUTDIR/chr20.dbsnp.vcf.gz
 	# update the sequence dictionary
-	gatk UpdateVCFSequenceDictionary -V $OUTDIR/chr20.dbsnp.vcf.gz --source-dictionary ../align_pipe/son.bam --output $OUTDIR/chr20.dbsnp.contig.vcf.gz --replace=true
+	gatk UpdateVCFSequenceDictionary -V $OUTDIR/chr20.dbsnp.vcf.gz --source-dictionary ../results/align_pipe/son.bam --output $OUTDIR/chr20.dbsnp.contig.vcf.gz --replace=true
 	tabix -p vcf -f $OUTDIR/chr20.dbsnp.contig.vcf.gz
 	# remove intermediate files
 	rm $OUTDIR/chr20.dbsnp.vcf.gz*

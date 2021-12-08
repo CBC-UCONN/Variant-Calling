@@ -47,7 +47,8 @@ run_pepper_margin_deepvariant call_variant \
 --ont \
 -o $OUTDIR/$SAM \
 -r chr20:29400000-34400000 \
--p $SAM
+-p $SAM \
+-s $SAM
 
 # mom
 SAM=mom
@@ -59,7 +60,8 @@ run_pepper_margin_deepvariant call_variant \
 --ont \
 -o $OUTDIR/$SAM \
 -r chr20:29400000-34400000 \
--p $SAM
+-p $SAM \
+-s $SAM
 
 # dad
 SAM=dad
@@ -71,4 +73,5 @@ run_pepper_margin_deepvariant call_variant \
 --ont \
 -o $OUTDIR/$SAM \
 -r chr20:29400000-34400000 \
--p $SAM
+-p $SAM \
+-s $SAM
