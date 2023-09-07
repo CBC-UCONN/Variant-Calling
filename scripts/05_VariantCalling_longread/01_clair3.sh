@@ -15,76 +15,83 @@ hostname
 date
 
 module load htslib/1.12
-source ~/.bashrc
-conda activate clair3
+module load singularity/3.10.0
+
+# we're going to run clair3 inside of a software container. 
+# we already have the container on the xanadu cluster in a shared location
+# to get your own copy of the container, load the singularity module and then:
+ # singularity pull docker://hkubal/clair3:latest
+ # that will result in a container called "clair3_latest.sif" which we use below
+
 
 # Set the number of CPUs to use
 THREADS="4"
 
 # input/output files, directories
-INDIR=../results/align_ont
+INDIR=../../results/03_AlignmentAndCoverage/minimap2/
 
-OUTDIR=../results/variants_clair3_gvcf
+OUTDIR=../../results/05_VariantCalling_longread/variants_clair3
 mkdir -p $OUTDIR
 
-GENOME=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
+GENOME=../../genome/GRCh38_latest_genomic.fna
+
+CLAIR3_CONTAINER=/isg/shared/databases/nfx_singularity_cache/clair3_latest.sif
+
+TARGETS=$OUTDIR/targets.bed
+  zcat ../../results/03_AlignmentAndCoverage/short_read_coverage/targets.bed.gz >$TARGETS
 
 # run clair3
 
 # son
 SAM=son
+singularity exec $CLAIR3_CONTAINER \
 run_clair3.sh \
   --bam_fn=$INDIR/$SAM.bam \
   --ref_fn=$GENOME \
   --threads=${THREADS} \
   --platform=ont \
-  --model_path=$CONDA_PREFIX/bin/models/r941_prom_hac_g360+g422 \
+  --model_path=/opt/models/r941_prom_hac_g360+g422 \
   --output=$OUTDIR/$SAM \
   --gvcf \
-  --sample_name=$SAM
+  --sample_name=$SAM \
+  --bed_fn=$TARGETS
 
 cp $OUTDIR/$SAM/merge_output.gvcf.gz $OUTDIR/$SAM.g.vcf.gz
 tabix -p vcf $OUTDIR/$SAM.g.vcf.gz
 
 # mom
 SAM=mom
+singularity exec $CLAIR3_CONTAINER \
 run_clair3.sh \
   --bam_fn=$INDIR/$SAM.bam \
   --ref_fn=$GENOME \
   --threads=${THREADS} \
   --platform=ont \
-  --model_path=$CONDA_PREFIX/bin/models/r941_prom_hac_g360+g422 \
+  --model_path=/opt/models/r941_prom_hac_g360+g422 \
   --output=$OUTDIR/$SAM \
   --gvcf \
-  --sample_name=$SAM
+  --sample_name=$SAM \
+  --bed_fn=$TARGETS
 
 cp $OUTDIR/$SAM/merge_output.gvcf.gz $OUTDIR/$SAM.g.vcf.gz
 tabix -p vcf $OUTDIR/$SAM.g.vcf.gz
 
 # dad
 SAM=dad
+singularity exec $CLAIR3_CONTAINER \
 run_clair3.sh \
   --bam_fn=$INDIR/$SAM.bam \
   --ref_fn=$GENOME \
   --threads=${THREADS} \
   --platform=ont \
-  --model_path=$CONDA_PREFIX/bin/models/r941_prom_hac_g360+g422 \
+  --model_path=/opt/models/r941_prom_hac_g360+g422 \
   --output=$OUTDIR/$SAM \
   --gvcf \
-  --sample_name=$SAM
+  --sample_name=$SAM \
+  --bed_fn=$TARGETS
 
 cp $OUTDIR/$SAM/merge_output.gvcf.gz $OUTDIR/$SAM.g.vcf.gz
 tabix -p vcf $OUTDIR/$SAM.g.vcf.gz
 
 date
-
-
-
-
-
-
-
-
-
-
 

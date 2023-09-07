@@ -23,18 +23,18 @@ module load GATK/4.0
 module load htslib/1.12
 module load bedtools/2.29.0
 
-INDIR=../results/align_pipe
+INDIR=../../results/03_AlignmentAndCoverage/bwa_align/
 
-OUTDIR=../results/variants_gatk
+OUTDIR=../../results/04_VariantCalling_shortread/variants_gatk_singlesample
 mkdir -p $OUTDIR
 
 # make a list of bam files
 ls $INDIR/*bam >$OUTDIR/bam.list
 
-TARGETS=../results/coverage_stats/targets.bed
+TARGETS=../../results/03_AlignmentAndCoverage/short_read_coverage/targets.bed.gz
 
 # set a variable for the reference genome location
-GEN=/UCHC/PublicShare/CBC_Tutorials/Variant_Detection_Tutorials/Variant-Detection-Introduction-GATK_all/resources_all/Homo_sapiens_assembly38.fasta
+GEN=../../genome/GRCh38_latest_genomic.fna
 
 gatk HaplotypeCaller \
      -R $GEN \
