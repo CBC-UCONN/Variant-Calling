@@ -4,8 +4,8 @@
 #SBATCH -N 1
 #SBATCH -c 1
 #SBATCH --mem=50G
-#SBATCH --qos=mcbstudent
-#SBATCH --partition=mcbstudent
+#SBATCH --qos=general
+#SBATCH --partition=general
 #SBATCH --mail-user=
 #SBATCH --mail-type=ALL
 #SBATCH -o %x_%j.out
