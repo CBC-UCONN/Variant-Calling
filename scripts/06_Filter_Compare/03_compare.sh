@@ -39,7 +39,7 @@ vt partition -f PASS son_clair3_ont_filter.vcf.gz son_gatk_ill_filter.vcf.gz
 vt multi_partition -f PASS fb_ill_filter.vcf.gz gatk_ill_filter.vcf.gz bcf_ill_filter.vcf.gz
 
 # concordance is low because many complex variants and small haplotypes are represented differently in the call sets. 
-	#  bcftools norm and vcflib's vcfallelicprimitives can help standardize the representation
+     #  bcftools norm and vcflib's vcfallelicprimitives can help standardize the representation
 
 GEN=../../../genome/GRCh38_latest_genomic.fna
 
@@ -82,20 +82,14 @@ bcftools view -H isec_fb_clair3/0001.vcf | head -n 10 | cut -f 1-6
 
 # now let's look at some of the long-read data and single-sample (gatk) short read variants
 
-vt peek -f PASS clair3_son_ont_filter.vcf.gz
-vt peek -f PASS pepper_son_ont_filter.vcf.gz
-vt peek -f PASS gatk_son_ont_filter.vcf.gz
+vt peek -f PASS son_clair3_vap.vcf.gz
+vt peek -f PASS son_gatk_vap.vcf.gz
 
-vt partition -f "PASS && VTYPE==SNP" clair3_son_ont_filter.vcf.gz pepper_son_ont_filter.vcf.gz
-vt partition -f "PASS && VTYPE==SNP" clair3_son_ont_filter.vcf.gz gatk_son_ont_filter.vcf.gz
-vt partition -f "PASS && VTYPE==SNP" pepper_son_ont_filter.vcf.gz gatk_son_ont_filter.vcf.gz
-
-vt multi_partition -f "PASS && VTYPE==SNP" clair3_son_ont_filter.vcf.gz pepper_son_ont_filter.vcf.gz gatk_son_ont_filter.vcf.gz
+vt partition -f "PASS && VTYPE==SNP" son_clair3_vap.vcf.gz son_gatk_vap.vcf.gz
 
 # extract intersections with bcftools isec
-bcftools isec -i "FILTER='PASS' && TYPE='SNP'" -p isec_clair3_pepper clair3_son_ont_filter.vcf.gz pepper_son_ont_filter.vcf.gz
-
-bcftools isec -i "FILTER='PASS' && TYPE='SNP'" -p isec_clair3_gatk clair3_son_ont_filter.vcf.gz gatk_son_ont_filter.vcf.gz
+bcftools isec -i "FILTER='PASS' && TYPE='SNP'" -p isec_clair3_gatk son_clair3_vap.vcf.gz son_gatk_vap.vcf.gz
 
 # have a look at some variants called by clair3/ont, but not gatk/illumina
 bcftools view -H isec_clair3_gatk/0000.vcf | head -n 10
+

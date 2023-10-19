@@ -40,13 +40,6 @@ bcftools view -r NC_000020.11:31400000-34400000 $INDIR/variants_bcftools/ashtrio
 
 bcftools view -r NC_000020.11:31400000-34400000 $INDIRLONG/variants_clair3_glnexus/ashtrio_clair3.vcf.gz  | bcftools filter -s LowQual -e '%QUAL<15' | bgzip -c > $OUTDIR/clair3_ONT_filter.vcf.gz
 
-# glnexus apparently gets rid of the sequence dictionary. we have to add it back in. 
-gatk UpdateVCFSequenceDictionary \
-     -V $OUTDIR/clair3_ONT_filter.vcf.gz \
-     --source-dictionary ../../results/03_AlignmentAndCoverage/bwa_align/son.bam \
-     --output $OUTDIR/clair3_ONT_filter_dict.vcf.gz \
-     --replace true
-
 # son only to compare long reads against short reads for a single sample -------------------------
 
 bcftools view -r NC_000020.11:31400000-34400000 $INDIRLONG/variants_clair3/son/merge_output.vcf.gz | bedtools intersect -header -wa -a stdin -b <(zcat $TARGETS) | bgzip -c > $OUTDIR/son_clair3_ont_filter.vcf.gz
@@ -63,3 +56,12 @@ bcftools view -r NC_000020.11:31400000-34400000 $INDIR/variants_gatk_singlesampl
 for file in $OUTDIR/*vcf.gz
 do tabix -f -p vcf $file
 done
+
+# glnexus apparently gets rid of the sequence dictionary. we have to add it back in. 
+gatk UpdateVCFSequenceDictionary \
+     -V $OUTDIR/clair3_ONT_filter.vcf.gz \
+     --source-dictionary ../../results/03_AlignmentAndCoverage/bwa_align/son.bam \
+     --output $OUTDIR/clair3_ONT_filter_dict.vcf.gz \
+     --replace true
+
+
