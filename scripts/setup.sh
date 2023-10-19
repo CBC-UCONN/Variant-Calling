@@ -42,7 +42,7 @@ jid23=$(sbatch --parsable --dependency=afterok:$jid22 04_gatk_single_sample_illu
 cd ../06_Filter_Compare
 jid24=$(sbatch --parsable --dependency=afterok:$jid23 01_filter.sh )
 jid25=$(sbatch --parsable --dependency=afterok:$jid24 02_summarize.sh )
-jid26=$(sbatch --parsable --dependency=afterok:$jid25 03_compare.sh.sh )
+jid26=$(sbatch --parsable --dependency=afterok:$jid25 03_compare.sh )
 
 cd ../07_Annotate
 jid27=$(sbatch --parsable --dependency=afterok:$jid26 01_annotate_snpEff.sh )
