@@ -48,3 +48,5 @@ $INDIR/mom.g.vcf.gz \
 $INDIR/dad.g.vcf.gz >$OUTDIR/joint.bcf
 
 bcftools view -Oz $OUTDIR/joint.bcf >$OUTDIR/ashtrio_clair3.vcf.gz
+
+tabix -p vcf $OUTDIR/ashtrio_clair3.vcf.gz
