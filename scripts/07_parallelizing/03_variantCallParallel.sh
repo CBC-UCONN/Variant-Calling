@@ -31,7 +31,7 @@ OUTDIR=../../results/07_parallelizing/bcftoolsVariants
 ls ${INDIR}/*.bam >${INDIR}/bam_list.txt
 
 #Set reference genome location
-GEN=../../genome/GCF_003597395.1_ASM359739v1_genomic.fna
+GEN=../../genome/GRCh38_GIABv3_no_alt_analysis_set_maskedGRC_decoys_MAP2K3_KMT2C_KCNJ18.fasta
 
 # fai index genome
 samtools faidx ${GEN}
