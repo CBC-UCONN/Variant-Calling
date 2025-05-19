@@ -10,12 +10,12 @@
 # jid1=$( sbatch --parsable 01_DataDownload/01_DownloadSamples.sh )
 # jid2=$( sbatch --parsable --dependency=afterok:$jid1  01_DataDownload/02_DownloadGenome.sh )
 
-cd 02_QualityControl
+cd 02_qc 
 jid3=$( sbatch --parsable   01_fastqcRaw.sh )
 jid4=$( sbatch --parsable --dependency=afterok:$jid3  02_trimmomatic.sh )
 jid5=$( sbatch --parsable --dependency=afterok:$jid4  03_fastqcTrimmed.sh )
 
-cd ../03_AlignmentAndCoverage
+cd ../03_alignment
 jid6=$( sbatch --parsable --dependency=afterok:$jid5  01_bwaIndex.sh )
 jid7=$( sbatch --parsable --dependency=afterok:$jid6  02_bwaAlign.sh )
 
