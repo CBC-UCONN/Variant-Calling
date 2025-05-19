@@ -25,7 +25,7 @@ jid9=$( sbatch --parsable --dependency=afterok:$jid8  02_coverage.sh )
 jid10=$(sbatch --parsable --dependency=afterok:$jid9  03_bedtoolsNuc.sh )
 
 cd ../05_variantCalling/
-jid11=$(sbatch --parsable --dependency=afterok:$jid10 06_01_freebayes.sh )
+jid11=$(sbatch --parsable --dependency=afterok:$jid10 01_freebayes.sh )
 jid12=$(sbatch --parsable --dependency=afterok:$jid11 02_bcftools.sh )
 jid13=$(sbatch --parsable --dependency=afterok:$jid12 03_createDict.sh )
 jid14=$(sbatch --parsable --dependency=afterok:$jid13 04_makeGVCFs.sh )
