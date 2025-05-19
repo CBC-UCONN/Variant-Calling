@@ -1,3 +1,4 @@
+#!/bin/bash
 #SBATCH --job-name=bcftoolsParallelized
 #SBATCH -n 1
 #SBATCH -N 1
