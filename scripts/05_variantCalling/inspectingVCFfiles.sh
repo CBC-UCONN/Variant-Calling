@@ -24,7 +24,7 @@ bcftools view -H $BCFTOOLS | head
 bcftools view -H $BCFTOOLS chr20:31000000-31010000
 
 ############## summarize the vcf with `bcftools stats` ##############
-    # when you have a large VCF, run this in a batch script
+    # run these as batch jobs on big files
     
 # pull out the summary numbers
 bcftools stats $BCFTOOLS | grep "^SN"
@@ -38,6 +38,9 @@ bcftools stats -e "QUAL < 30" $BCFTOOLS | grep "TSTV"
 
 ############### extract particular bits of information into a table with `bcftools query` #############
 
+# run these as batch jobs on big files
+
+# output some basic info + individual genotypes
 bcftools query \
     --print-header \
     -r chr20:33000000- \
@@ -45,7 +48,7 @@ bcftools query \
     $FREEBAYES | 
     head
 
-
+# output more basic info + individual genotypes + individual genotype depth
 bcftools query \
     --print-header \
     -r chr20:33000000- \
@@ -55,4 +58,5 @@ bcftools query \
 
 ############## calculating the frequency of mendelian violations #####################
 
+# run this as a batch job for a big file
 bcftools +mendelian2 -r chr20:29400000-34400000 -p son,dad,mom -m c $FREEBAYES
