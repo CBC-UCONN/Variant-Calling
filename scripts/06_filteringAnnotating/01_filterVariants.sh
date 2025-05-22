@@ -42,7 +42,7 @@ gzip >${TARGETS}
 # freebayes: use AB/AF/DP/QUAL
 bcftools filter \
   -r chr20:29400000-34400000 \
-  --exclude 'INFO/DP < 50 | INFO/DP > 250 | AB < .25 | AB > 0.75 | QUAL < 30 | AF < 0.1' \
+  --exclude 'INFO/DP < 50 | INFO/DP > 250 | INFO/ABP > 40 | QUAL < 30 | AF < 0.1' \
   ${FREEBAYES} |
 bedtools intersect -header -a stdin -b ${TARGETS} |
 bgzip >${FREEBAYESOUT}
